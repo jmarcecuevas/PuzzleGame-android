@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">LuckyPuzzle</string>
+    <string name="sign_up_with">Sign up with</string>
+    <string name="nickname">Nickname</string>
+    <string name="password">Password</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="register_now">Not registered? Register now!</string>
+    <string name="login_now">Already registered? Login now!</string>
+    <string name="failedLogin">Login failed. Invalid email or password.</string>
+    <string name="pleaseWait">Please wait...</string>
+</resources>
