@@ -6,6 +6,8 @@ import android.widget.FrameLayout;
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyActivity;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
+//import com.example.marce.luckypuzzle.di.module.LaunchModule;
+import com.example.marce.luckypuzzle.di.module.LaunchModule;
 import com.example.marce.luckypuzzle.ui.fragments.SignUpOptionsFragment;
 
 public class LaunchActivity extends LuckyActivity {
@@ -25,7 +27,8 @@ public class LaunchActivity extends LuckyActivity {
 
     @Override
     public void setUpComponent(LuckyGameComponent appComponent) {
-        appComponent.plus(new LogRegModule(this)).inject(this);
+        appComponent.plus(new LaunchModule()).inject(this);
+//        appComponent.plus(new LaunchModule());
     }
 
     @Override

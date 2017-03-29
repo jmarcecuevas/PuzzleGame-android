@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyFragment;
-import com.example.marce.luckypuzzle.presenter.UserPresenter;
+import com.example.marce.luckypuzzle.presenter.SignInPresenterImp;
 import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
 import com.example.marce.luckypuzzle.ui.viewModel.UserView;
 
@@ -15,7 +15,7 @@ import com.example.marce.luckypuzzle.ui.viewModel.UserView;
  * Created by marce on 24/03/17.
  */
 
-public class SignUpOptionsFragment extends LuckyFragment<UserPresenter> implements UserView,View.OnClickListener {
+public class SignUpOptionsFragment extends LuckyFragment<SignInPresenterImp> implements UserView,View.OnClickListener {
 
     private static final int RC_SIGN_IN = 007;
     private LaunchActivity activity;
@@ -39,7 +39,6 @@ public class SignUpOptionsFragment extends LuckyFragment<UserPresenter> implemen
 
     @Override
     protected void populate() {
-        mPresenter.loadUser(565);
     }
 
     @Override
@@ -49,10 +48,9 @@ public class SignUpOptionsFragment extends LuckyFragment<UserPresenter> implemen
     }
 
     @Override
-    protected UserPresenter createPresenter() {
-        return new UserPresenter(this);
+    protected SignInPresenterImp createPresenter() {
+        return null;
     }
-
 
 
     @Override

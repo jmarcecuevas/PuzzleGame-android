@@ -6,16 +6,18 @@ import android.widget.TextView;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyFragment;
-import com.example.marce.luckypuzzle.presenter.UserPresenter;
+import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
+import com.example.marce.luckypuzzle.presenter.SignUpPresenterImp;
 import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
 
 /**
  * Created by marce on 26/03/17.
  */
 
-public class SignUpFragment extends LuckyFragment<UserPresenter> implements View.OnClickListener{
+public class SignUpFragment extends LuckyFragment<SignUpPresenterImp> implements View.OnClickListener{
     private LaunchActivity activity;
     private TextView loginNow;
+    private SignUpInteractor signUpInteractor;
 
     @Override
     protected int layout() {
@@ -29,7 +31,7 @@ public class SignUpFragment extends LuckyFragment<UserPresenter> implements View
 
     @Override
     protected void init() {
-
+        signUpInteractor= new SignUpInteractor();
     }
 
     @Override
@@ -43,7 +45,8 @@ public class SignUpFragment extends LuckyFragment<UserPresenter> implements View
     }
 
     @Override
-    protected UserPresenter createPresenter() {
+    protected SignUpPresenterImp createPresenter() {
+        //return new SignUpPresenterImp(this,signUpInteractor);
         return null;
     }
 

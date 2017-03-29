@@ -9,13 +9,13 @@ import dagger.Provides;
 /**
  * Created by marce on 28/03/17.
  */
-
-@Module
-public class InteractorModule {
-
-    @Provides
-    public SignInInteractor provideSigInInteractor(SignInAPIService loginAPIService){
-        return new SignInInteractor(loginAPIService);
-    }
-
-}
+//
+//@Module
+//public class InteractorModule {
+//
+//    @Provides
+//    public SignInInteractor provideSigInInteractor(SignInAPIService loginAPIService){
+//        return new SignInInteractor(loginAPIService);
+//    }
+//
+//}

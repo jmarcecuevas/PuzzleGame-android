@@ -12,6 +12,9 @@ import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.di.app.LuckyGameApp;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
 import com.example.marce.luckypuzzle.ui.UiManager;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import javax.inject.Inject;
 
 /**
  * Created by marce on 24/03/17.
@@ -25,9 +28,9 @@ public abstract class LuckyActivity extends AppCompatActivity implements UiManag
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
-        injectDependencies();
         uiManager = new UiManager(getSupportFragmentManager());
         uiManager.setChangeFragmentListener(this);
+        injectDependencies();
     }
 
     /**

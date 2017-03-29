@@ -12,9 +12,15 @@ import android.widget.Toast;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyFragment;
+import com.example.marce.luckypuzzle.interactor.SignInInteractor;
+import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
+import com.example.marce.luckypuzzle.model.SignInResponse;
 import com.example.marce.luckypuzzle.presenter.SignInPresenterImp;
 import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
 import com.example.marce.luckypuzzle.ui.viewModel.SignInView;
+
+import retrofit2.Call;
+import retrofit2.http.Field;
 
 /**
  * Created by marce on 26/03/17.
@@ -26,6 +32,7 @@ public class SignInFragment extends LuckyFragment<SignInPresenterImp> implements
     private AlertDialog alertDialog;
     private ProgressDialog progressDialog;
     private LaunchActivity activity;
+    private SignInInteractor signInInteractor;
 
     @Override
     protected int layout() {
@@ -34,6 +41,7 @@ public class SignInFragment extends LuckyFragment<SignInPresenterImp> implements
 
     @Override
     protected void setUi(View v) {
+        signIn= (Button) v.findViewById(R.id.sign_in);
         registerNow= (TextView) v.findViewById(R.id.register_now);
         email= (TextView)v.findViewById(R.id.email);
         password=(TextView)v.findViewById(R.id.password);
@@ -41,6 +49,12 @@ public class SignInFragment extends LuckyFragment<SignInPresenterImp> implements
 
     @Override
     protected void init() {
+        signInInteractor= new SignInInteractor(new SignInAPIService() {
+            @Override
+            public Call<SignInResponse> login(@Field("email") String email, @Field("password") String password) {
+                return null;
+            }
+        });
         progressDialog= new ProgressDialog(activity);
         progressDialog.setCancelable(false);
         progressDialog.setMessage(getString(R.string.pleaseWait));
@@ -59,7 +73,7 @@ public class SignInFragment extends LuckyFragment<SignInPresenterImp> implements
 
     @Override
     protected SignInPresenterImp createPresenter() {
-        return new SignInPresenterImp(this);
+        return new SignInPresenterImp(this,signInInteractor);
     }
 
     @Override
