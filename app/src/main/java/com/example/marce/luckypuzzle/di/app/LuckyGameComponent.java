@@ -36,7 +36,7 @@ public interface LuckyGameComponent {
 //    MainLoginComponent plus(MainLoginModule mainLoginModule);
 //    SettingsComponent plus(SettingsModule settingsModule);
 
-    Context getContext();
+     Context getContext();
     //SignInInteractor getSignInInteractor();
 //    RegisterInteractor getRegisterInteractor();
 //    MainInteractor getMainInteractor();

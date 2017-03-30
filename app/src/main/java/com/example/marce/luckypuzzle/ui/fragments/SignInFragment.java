@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyFragment;
+import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
+import com.example.marce.luckypuzzle.di.module.LaunchModule;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
 import com.example.marce.luckypuzzle.model.SignInResponse;
@@ -33,6 +35,11 @@ public class SignInFragment extends LuckyFragment<SignInPresenterImp> implements
     private ProgressDialog progressDialog;
     private LaunchActivity activity;
     private SignInInteractor signInInteractor;
+
+    @Override
+    public void setUpComponent(LuckyGameComponent appComponent) {
+        appComponent.plus(new SignInFragment()).inject(this);
+    }
 
     @Override
     protected int layout() {

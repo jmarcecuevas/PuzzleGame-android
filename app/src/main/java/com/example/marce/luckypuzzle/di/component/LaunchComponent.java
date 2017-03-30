@@ -3,6 +3,7 @@ package com.example.marce.luckypuzzle.di.component;
 import com.example.marce.luckypuzzle.common.ActivityScope;
 //import com.example.marce.luckypuzzle.di.module.LaunchModule;
 import com.example.marce.luckypuzzle.di.module.LaunchModule;
+import com.example.marce.luckypuzzle.di.module.SignInModule;
 import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
 
 import dagger.Subcomponent;
@@ -17,6 +18,8 @@ import dagger.Subcomponent;
 )
 public interface LaunchComponent{
     void inject(LaunchActivity launchActivity);
+
+    SignInComponent plus(SignInModule signInModule);
     /*void inject(RegisterActivity registerActivity);
     LoginPresenterImp getLoginPresenter();
     RegisterPresenterImp getRegisterPresenter();*/

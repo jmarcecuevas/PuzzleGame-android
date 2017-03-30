@@ -9,9 +9,14 @@ import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
 //import com.example.marce.luckypuzzle.di.module.LaunchModule;
 import com.example.marce.luckypuzzle.di.module.LaunchModule;
 import com.example.marce.luckypuzzle.ui.fragments.SignUpOptionsFragment;
+import com.example.marce.luckypuzzle.utils.SessionManager;
+
+import javax.inject.Inject;
 
 public class LaunchActivity extends LuckyActivity {
     private FrameLayout fragmentContainer;
+    @Inject
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +33,6 @@ public class LaunchActivity extends LuckyActivity {
     @Override
     public void setUpComponent(LuckyGameComponent appComponent) {
         appComponent.plus(new LaunchModule()).inject(this);
-//        appComponent.plus(new LaunchModule());
     }
 
     @Override

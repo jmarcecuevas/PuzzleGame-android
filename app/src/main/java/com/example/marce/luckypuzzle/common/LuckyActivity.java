@@ -23,6 +23,7 @@ import javax.inject.Inject;
 public abstract class LuckyActivity extends AppCompatActivity implements UiManager.ChangeFragmentListener {
 
     private UiManager uiManager;
+    
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

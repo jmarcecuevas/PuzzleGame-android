@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Vibrator;
+import android.util.Log;
 
 import com.example.marce.luckypuzzle.io.apiServices.APIAdapter;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
@@ -43,10 +44,12 @@ public class LuckyGameModule {
     }
 
     @Provides @Singleton SessionManager provideSessionManager(Context context){
+        Log.e("SDASDASDASDAS","HHSAD");
         return new SessionManager(context);
     }
 
     @Provides @Singleton SharedPreferences provideSharedPreferences(){
+        Log.e("PREFE","RENCES");
         return app.getSharedPreferences("MyPref",app.MODE_PRIVATE);
     }
 

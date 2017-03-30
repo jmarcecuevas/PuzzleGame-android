@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.marce.luckypuzzle.di.app.LuckyGameApp;
+import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
+import com.example.marce.luckypuzzle.di.component.LaunchComponent;
+
 
 /**
  * Created by marce on 24/03/17.
@@ -27,6 +31,14 @@ public abstract class LuckyFragment<T extends LuckyPresenter> extends Fragment {
         setListeners();
         return v;
     }
+    /**
+     * Setup the object graph and inject the dependencies needed on this activity.
+     */
+    private void injectDependencies() {
+        setUpComponent(LuckyGameApp.getApp(getActivity()).getComponent());
+    }
+
+    public abstract void setUpComponent(LaunchComponent appComponent);
 
     /**
      * Returns the layout id for the inflater so the view can be populated
