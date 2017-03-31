@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyFragment;
+import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
 import com.example.marce.luckypuzzle.presenter.SignUpPresenterImp;
 import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
@@ -18,6 +19,11 @@ public class SignUpFragment extends LuckyFragment<SignUpPresenterImp> implements
     private LaunchActivity activity;
     private TextView loginNow;
     private SignUpInteractor signUpInteractor;
+
+    @Override
+    public void setUpComponent(LuckyGameComponent appComponent) {
+
+    }
 
     @Override
     protected int layout() {

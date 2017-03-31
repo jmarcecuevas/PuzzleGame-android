@@ -38,7 +38,7 @@ public abstract class LuckyFragment<T extends LuckyPresenter> extends Fragment {
         setUpComponent(LuckyGameApp.getApp(getActivity()).getComponent());
     }
 
-    public abstract void setUpComponent(LaunchComponent appComponent);
+    public abstract void setUpComponent(LuckyGameComponent appComponent);
 
     /**
      * Returns the layout id for the inflater so the view can be populated

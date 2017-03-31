@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyFragment;
+import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
 import com.example.marce.luckypuzzle.presenter.SignInPresenterImp;
 import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
 import com.example.marce.luckypuzzle.ui.viewModel.UserView;
@@ -20,6 +21,11 @@ public class SignUpOptionsFragment extends LuckyFragment<SignInPresenterImp> imp
     private static final int RC_SIGN_IN = 007;
     private LaunchActivity activity;
     private Button luckyCode,googleButton;
+
+    @Override
+    public void setUpComponent(LuckyGameComponent appComponent) {
+
+    }
 
     @Override
     protected int layout() {

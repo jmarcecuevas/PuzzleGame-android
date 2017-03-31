@@ -13,7 +13,9 @@ import android.widget.Toast;
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyFragment;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
+import com.example.marce.luckypuzzle.di.component.DaggerSignInFragmentComponent;
 import com.example.marce.luckypuzzle.di.module.LaunchModule;
+import com.example.marce.luckypuzzle.di.module.SignInModule;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
 import com.example.marce.luckypuzzle.model.SignInResponse;
@@ -38,7 +40,9 @@ public class SignInFragment extends LuckyFragment<SignInPresenterImp> implements
 
     @Override
     public void setUpComponent(LuckyGameComponent appComponent) {
-        appComponent.plus(new SignInFragment()).inject(this);
+        DaggerSignInFragmentComponent.builder()
+                .luckyappComponent(appComponent)
+                .signInModule(new SignInModule()).build();
     }
 
     @Override

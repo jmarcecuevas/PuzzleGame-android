@@ -19,7 +19,7 @@ import dagger.Subcomponent;
 public interface LaunchComponent{
     void inject(LaunchActivity launchActivity);
 
-    SignInComponent plus(SignInModule signInModule);
+    void plus(SignInModule signInModule);
     /*void inject(RegisterActivity registerActivity);
     LoginPresenterImp getLoginPresenter();
     RegisterPresenterImp getRegisterPresenter();*/
