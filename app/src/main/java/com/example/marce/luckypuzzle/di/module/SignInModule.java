@@ -15,11 +15,11 @@ import dagger.Provides;
 
 @Module
 public class SignInModule {
-    //private SignInView signInView;
+    private SignInView signInView;
     //private SignupView registerView;
 
-    public SignInModule(/*SignInView view*/) {
-        //signInView = view;
+    public SignInModule(SignInView view) {
+        signInView = view;
     }
 
 //    public LogRegModule(RegisterView view){

@@ -7,9 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.marce.luckypuzzle.di.app.LuckyGameApp;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
-import com.example.marce.luckypuzzle.di.component.LaunchComponent;
+import com.example.marce.luckypuzzle.di.component.ActivityComponent;
 
 
 /**
@@ -24,6 +23,7 @@ public abstract class LuckyFragment<T extends LuckyPresenter> extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v= inflater.inflate(layout(),container,false);
+        setUpComponent();
         mPresenter=createPresenter();
         setUi(v);
         init();
@@ -35,10 +35,10 @@ public abstract class LuckyFragment<T extends LuckyPresenter> extends Fragment {
      * Setup the object graph and inject the dependencies needed on this activity.
      */
     private void injectDependencies() {
-        setUpComponent(LuckyGameApp.getApp(getActivity()).getComponent());
+        //setUpComponent(LuckyGameApp.getApp(getActivity()).getComponent());
     }
 
-    public abstract void setUpComponent(LuckyGameComponent appComponent);
+    public abstract void setUpComponent();
 
     /**
      * Returns the layout id for the inflater so the view can be populated

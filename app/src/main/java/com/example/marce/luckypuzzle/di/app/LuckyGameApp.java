@@ -26,11 +26,13 @@ public class LuckyGameApp extends Application {
                 .build();
     }
 
-    public LuckyGameComponent getComponent(){
-        return luckyComponent;
+    public static LuckyGameComponent getLuckyComponent(Context context){
+        return getApp(context).luckyComponent;
     }
 
     public static LuckyGameApp getApp(Context context){
         return (LuckyGameApp) context.getApplicationContext();
     }
+
+
 }

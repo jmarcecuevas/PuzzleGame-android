@@ -1,5 +1,6 @@
 package com.example.marce.luckypuzzle.common;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.di.app.LuckyGameApp;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
+import com.example.marce.luckypuzzle.di.component.ActivityComponent;
 import com.example.marce.luckypuzzle.ui.UiManager;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -23,7 +25,6 @@ import javax.inject.Inject;
 public abstract class LuckyActivity extends AppCompatActivity implements UiManager.ChangeFragmentListener {
 
     private UiManager uiManager;
-    
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,21 +32,17 @@ public abstract class LuckyActivity extends AppCompatActivity implements UiManag
         setContentView(getLayout());
         uiManager = new UiManager(getSupportFragmentManager());
         uiManager.setChangeFragmentListener(this);
-        injectDependencies();
+        setupActivityComponent(LuckyGameApp.getLuckyComponent(this));
     }
 
     /**
      * @return The layout that's gonna be the activity view.
      */
     protected abstract int getLayout();
-    /**
-     * Setup the object graph and inject the dependencies needed on this activity.
-     */
-    private void injectDependencies() {
-        setUpComponent(LuckyGameApp.getApp(this).getComponent());
-    }
 
-    public abstract void setUpComponent(LuckyGameComponent appComponent);
+    protected abstract void setupActivityComponent(LuckyGameComponent appComponent);
+
+    protected abstract ActivityComponent getComponent();
 
     @Override
     public void startActivity(Intent intent){

@@ -13,7 +13,10 @@ import android.widget.Toast;
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyFragment;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
-import com.example.marce.luckypuzzle.di.component.DaggerSignInFragmentComponent;
+//import com.example.marce.luckypuzzle.di.component.DaggerSignInFragmentComponent;
+import com.example.marce.luckypuzzle.di.component.ActivityComponent;
+import com.example.marce.luckypuzzle.di.component.DaggerSignInComponent;
+import com.example.marce.luckypuzzle.di.component.LaunchComponent;
 import com.example.marce.luckypuzzle.di.module.LaunchModule;
 import com.example.marce.luckypuzzle.di.module.SignInModule;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
@@ -23,6 +26,8 @@ import com.example.marce.luckypuzzle.presenter.SignInPresenterImp;
 import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
 import com.example.marce.luckypuzzle.ui.viewModel.SignInView;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 
@@ -31,6 +36,7 @@ import retrofit2.http.Field;
  */
 
 public class SignInFragment extends LuckyFragment<SignInPresenterImp> implements SignInView,View.OnClickListener{
+    //@Inject Context context;
     private TextView registerNow,email,password;
     private Button signIn;
     private AlertDialog alertDialog;
@@ -39,10 +45,12 @@ public class SignInFragment extends LuckyFragment<SignInPresenterImp> implements
     private SignInInteractor signInInteractor;
 
     @Override
-    public void setUpComponent(LuckyGameComponent appComponent) {
-        DaggerSignInFragmentComponent.builder()
-                .luckyappComponent(appComponent)
-                .signInModule(new SignInModule()).build();
+    public void setUpComponent() {
+        /*DaggerSignInComponent.builder()
+                .launchComponent(((LaunchActivity)context).getComponent())
+                //.launchComponent(((LaunchActivity)getActivity()).getComponent())
+                .signInModule(new SignInModule(this))
+                .build();*/
     }
 
     @Override
