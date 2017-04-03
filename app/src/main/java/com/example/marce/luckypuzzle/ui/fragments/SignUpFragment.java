@@ -9,7 +9,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.View;
@@ -33,23 +35,29 @@ import com.example.marce.luckypuzzle.ui.viewModel.SignUpView;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by marce on 26/03/17.
  */
 
-public class SignUpFragment extends LuckyFragment implements SignUpView,View.OnClickListener{
+public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.OnClickListener*/{
 
     @Inject SignUpPresenterImp mPresenter;
+    @BindView(R.id.login_now)TextView loginNow;
+    @BindView(R.id.sign_up)Button signUp;
+    @BindView(R.id.profilePicture)CircleImageView profilePicture;
+    @BindView(R.id.userName)EditText userName;
+    @BindView(R.id.email)EditText email;
+    @BindView(R.id.password)EditText password;
+    @BindView(R.id.userName_layout)TextInputLayout userNameLayout;
+    @BindView(R.id.email_layout)TextInputLayout emailLayout;
+    @BindView(R.id.password_layout)TextInputLayout passwordLayout;
     private Animation animShake;
     private ProgressDialog progressDialog;
     private android.support.v7.app.AlertDialog alertDialog;
-    private TextView loginNow;
-    private Button signUp;
-    private EditText userName,email,password;
-    private TextInputLayout userNameLayout,passwordLayout,emailLayout;
-    private CircleImageView profilePicture;
     private CharSequence pictureOpions[];
     private boolean validUserName,validPassword,validEmail=true;
     private static final int TAKE_A_PHOTO=0,SELECT_FROM=1,RESULT_LOAD_IMG = 1;
@@ -70,40 +78,8 @@ public class SignUpFragment extends LuckyFragment implements SignUpView,View.OnC
     }
 
     @Override
-    protected void setUi(View v) {
-        loginNow= (TextView) v.findViewById(R.id.login_now);
-        signUp=(Button)v.findViewById(R.id.sign_up);
-        profilePicture= (CircleImageView) v.findViewById(R.id.profilePicture);
-        userName= (EditText) v.findViewById(R.id.userName);
-        email= (EditText) v.findViewById(R.id.email);
-        password= (EditText) v.findViewById(R.id.password);
-        userNameLayout= (TextInputLayout) v.findViewById(R.id.userName_layout);
-        emailLayout= (TextInputLayout) v.findViewById(R.id.email_layout);
-        passwordLayout= (TextInputLayout) v.findViewById(R.id.password_layout);
-    }
-
-    @Override
-    protected void init() {
-        pictureOpions= new CharSequence[] {getString(R.string.takeAPhoto),
-                getString(R.string.selectPhoto)};
-        progressDialog= new ProgressDialog(getActivity());
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage(getString(R.string.pleaseWait));
-        alertDialog= new android.support.v7.app.AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle(getString(R.string.sigupStatus));
-        animShake = AnimationUtils.loadAnimation(getActivity(),R.anim.shake);
-    }
-
-    @Override
-    protected void populate() {
-
-    }
-
-    @Override
-    protected void setListeners() {
-        loginNow.setOnClickListener(this);
-        signUp.setOnClickListener(this);
-        profilePicture.setOnClickListener(this);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         userName.addTextChangedListener(new TextWatcherAdapter(userName) {
             @Override
             public void validate(EditText editText, String text) {
@@ -119,16 +95,29 @@ public class SignUpFragment extends LuckyFragment implements SignUpView,View.OnC
     }
 
     @Override
-    public void onClick(View v) {
+    protected void init() {
+        pictureOpions= new CharSequence[] {getString(R.string.takeAPhoto),
+                getString(R.string.selectPhoto)};
+        progressDialog= new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage(getString(R.string.pleaseWait));
+        alertDialog= new android.support.v7.app.AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle(getString(R.string.sigupStatus));
+        animShake = AnimationUtils.loadAnimation(getActivity(),R.anim.shake);
+    }
+
+
+    @OnClick({R.id.profilePicture,R.id.login_now,R.id.sign_up})
+    public void OnClick(View v){
         switch (v.getId()){
             case R.id.profilePicture:
-               showPictureDialog();
+                showPictureDialog();
                 break;
             case R.id.sign_up:
                 mPresenter.signUp(userName.getText().toString(),email.getText().toString(),
                         password.getText().toString());
                 break;
-            case R.id.sign_in:
+            case R.id.login_now:
                 backToSignIn();
                 break;
         }

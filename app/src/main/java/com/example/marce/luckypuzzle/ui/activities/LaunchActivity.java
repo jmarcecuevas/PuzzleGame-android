@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyActivity;
@@ -16,6 +17,9 @@ import com.example.marce.luckypuzzle.utils.SessionManager;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class LaunchActivity extends LuckyActivity {
     private LaunchComponent launchComponent;
     private FrameLayout fragmentContainer;
@@ -25,6 +29,7 @@ public class LaunchActivity extends LuckyActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
         fragmentContainer= (FrameLayout) findViewById(R.id.launch_fragment_container);
         addFragmentWithBackStack(SignUpOptionsFragment.class,false);
         sessionManager.isLoggedIn();

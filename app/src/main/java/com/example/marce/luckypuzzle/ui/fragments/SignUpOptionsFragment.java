@@ -33,18 +33,25 @@ import java.util.Arrays;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * Created by marce on 24/03/17.
  */
 
-public class SignUpOptionsFragment extends LuckyFragment implements FacebookCallback<LoginResult>, SignUpOptions,View.OnClickListener {
+public class SignUpOptionsFragment extends LuckyFragment implements FacebookCallback<LoginResult>, SignUpOptions/*View.OnClickListener*/ {
 
     @Inject Context context;
     @Inject SignInPresenterImp mPresenter;
+    @BindView(R.id.userName)EditText userName;
+    @BindView(R.id.password)EditText password;
+    @BindView(R.id.userName_layout) TextInputLayout userNameLayout;
+    @BindView(R.id.password_layout)TextInputLayout passwordLayout;
+    @BindView(R.id.sign_in)Button signIn;
+    @BindView(R.id.facebook)Button facebook;
+    @BindView(R.id.luckyCode)Button luckycode;
     private CallbackManager callbackManager;
-    private EditText userName,password;
-    private TextInputLayout userNameLayout,passwordLayout;
-    private Button signIn,luckycode,facebook;
     private ProgressDialog progressDialog;
     private Animation animShake;
     private AlertDialog alertDialog;
@@ -70,17 +77,6 @@ public class SignUpOptionsFragment extends LuckyFragment implements FacebookCall
     }
 
     @Override
-    protected void setUi(View v) {
-        userName= (EditText) v.findViewById(R.id.userName);
-        password= (EditText) v.findViewById(R.id.password);
-        userNameLayout= (TextInputLayout) v.findViewById(R.id.userName_layout);
-        passwordLayout= (TextInputLayout) v.findViewById(R.id.password_layout);
-        signIn= (Button) v.findViewById(R.id.sign_in);
-        facebook= (Button) v.findViewById(R.id.facebook);
-        luckycode= (Button) v.findViewById(R.id.luckyCode);
-    }
-
-    @Override
     protected void init() {
         progressDialog= new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
@@ -88,17 +84,6 @@ public class SignUpOptionsFragment extends LuckyFragment implements FacebookCall
         alertDialog= new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle(getString(R.string.signInStatus));
         animShake = AnimationUtils.loadAnimation(getActivity(),R.anim.shake);
-    }
-
-    @Override
-    protected void populate() {
-    }
-
-    @Override
-    protected void setListeners() {
-        luckycode.setOnClickListener(this);
-        facebook.setOnClickListener(this);
-        signIn.setOnClickListener(this);
     }
 
     @Override
@@ -161,9 +146,9 @@ public class SignUpOptionsFragment extends LuckyFragment implements FacebookCall
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
+    @OnClick({R.id.luckyCode,R.id.facebook,R.id.sign_in})
+    public void OnClick(View v) {
+        switch (v.getId()) {
             case R.id.luckyCode:
                 signUpWithLuckyCode();
                 break;
@@ -171,9 +156,11 @@ public class SignUpOptionsFragment extends LuckyFragment implements FacebookCall
                 signUpWithFacebook();
                 break;
             case R.id.sign_in:
-                mPresenter.validateCredentials(userName.getText().toString(),password.getText().toString());
+                mPresenter.validateCredentials(userName.getText().toString(), password.getText().toString());
+                break;
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

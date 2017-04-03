@@ -25,10 +25,8 @@ public abstract class LuckyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v= inflater.inflate(layout(),container,false);
         setUpComponent();
-        setUi(v);
+        ButterKnife.bind(this,v);
         init();
-        populate();
-        setListeners();
         return v;
     }
     /**
@@ -45,25 +43,9 @@ public abstract class LuckyFragment extends Fragment {
      */
     protected abstract int layout();
 
-    /**
-     * Loads the view elements for the fragment
-     */
-    protected abstract void setUi(View v);
 
-    /**
-     * Initializes any variables that the fragment needs
-     */
     protected abstract void init();
 
-    /**
-     * Populates the view elements of the fragment
-     */
-    protected abstract void populate();
-
-    /**
-     * Sets the listeners for the views of the fragment
-     */
-    protected abstract void setListeners();
 
 
 }
