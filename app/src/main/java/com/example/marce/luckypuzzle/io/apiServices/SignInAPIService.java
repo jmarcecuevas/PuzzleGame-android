@@ -15,6 +15,6 @@ import retrofit2.http.POST;
 public interface SignInAPIService {
     @FormUrlEncoded
     @POST(URLUtils.SIGNIN_URL)
-    Call<SignInResponse> login(@Field("email")String email,
+    Call<SignInResponse> login(@Field("userName")String email,
                                @Field("password")String password);
 }

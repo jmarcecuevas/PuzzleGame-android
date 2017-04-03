@@ -3,11 +3,14 @@ package com.example.marce.luckypuzzle.common;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.di.app.LuckyGameApp;
@@ -29,6 +32,9 @@ public abstract class LuckyActivity extends AppCompatActivity implements UiManag
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(getLayout());
         uiManager = new UiManager(getSupportFragmentManager());
         uiManager.setChangeFragmentListener(this);

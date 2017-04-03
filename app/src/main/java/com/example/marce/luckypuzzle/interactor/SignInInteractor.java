@@ -1,5 +1,7 @@
 package com.example.marce.luckypuzzle.interactor;
 
+import android.util.Log;
+
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
 import com.example.marce.luckypuzzle.io.callback.SignInCallback;
 import com.example.marce.luckypuzzle.model.SignInResponse;
@@ -26,8 +28,10 @@ public class SignInInteractor {
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 SignInResponse mResponse= response.body();
                 if(mResponse!=null){
-                    if(mResponse.isSuccessful())
+                    if(mResponse.isSuccessful()){
                         callback.onSuccessLogin();
+                    }
+
                     else
                         callback.onFailedLogin();
                 }

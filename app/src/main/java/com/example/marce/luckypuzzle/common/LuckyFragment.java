@@ -10,21 +10,21 @@ import android.view.ViewGroup;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
 import com.example.marce.luckypuzzle.di.component.ActivityComponent;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 /**
  * Created by marce on 24/03/17.
  */
 
-public abstract class LuckyFragment<T extends LuckyPresenter> extends Fragment {
-
-    protected T mPresenter;
+public abstract class LuckyFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v= inflater.inflate(layout(),container,false);
         setUpComponent();
-        mPresenter=createPresenter();
         setUi(v);
         init();
         populate();
@@ -65,9 +65,5 @@ public abstract class LuckyFragment<T extends LuckyPresenter> extends Fragment {
      */
     protected abstract void setListeners();
 
-    /**
-     * Create the presenter for this fragment
-     */
 
-    protected abstract T createPresenter();
 }

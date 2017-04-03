@@ -7,7 +7,9 @@ import android.os.Vibrator;
 import android.util.Log;
 
 import com.example.marce.luckypuzzle.io.apiServices.APIAdapter;
+import com.example.marce.luckypuzzle.io.apiServices.EmailAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
+import com.example.marce.luckypuzzle.io.apiServices.SignUpAPIService;
 import com.example.marce.luckypuzzle.utils.SessionManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -27,7 +29,7 @@ import retrofit2.Retrofit;
 @Module
 public class LuckyGameModule {
 
-    private LuckyGameApp app;
+    LuckyGameApp app;
 
     public LuckyGameModule (LuckyGameApp app) {
         this.app = app;
@@ -44,12 +46,10 @@ public class LuckyGameModule {
     }
 
     @Provides @Singleton SessionManager provideSessionManager(Context context){
-        Log.e("SDASDASDASDAS","HHSAD");
         return new SessionManager(context);
     }
 
     @Provides @Singleton SharedPreferences provideSharedPreferences(){
-        Log.e("PREFE","RENCES");
         return app.getSharedPreferences("MyPref",app.MODE_PRIVATE);
     }
 
@@ -71,6 +71,14 @@ public class LuckyGameModule {
 
     @Provides @Singleton public SignInAPIService provideSignInAPIService(Retrofit retrofit){
         return retrofit.create(SignInAPIService.class);
+    }
+
+    @Provides @Singleton public SignUpAPIService provideSignUpAPIService(Retrofit retrofit){
+        return retrofit.create(SignUpAPIService.class);
+    }
+
+    @Provides @Singleton public EmailAPIService provideNicknameApiService(Retrofit retrofit){
+        return retrofit.create(EmailAPIService.class);
     }
 
     /*@Provides @Singleton public RegisterAPIService provideRegisterAPIService(Retrofit retrofit){

@@ -1,7 +1,10 @@
 package com.example.marce.luckypuzzle.di.module;
 
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
+import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
+import com.example.marce.luckypuzzle.io.apiServices.EmailAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
+import com.example.marce.luckypuzzle.io.apiServices.SignUpAPIService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,8 +17,12 @@ import dagger.Provides;
 public class InteractorModule {
 
     @Provides
-    public SignInInteractor provideSigInInteractor(SignInAPIService loginAPIService){
-        return new SignInInteractor(loginAPIService);
+    public SignInInteractor provideSigInInteractor(SignInAPIService signInAPIService){
+        return new SignInInteractor(signInAPIService);
+    }
+
+    @Provides SignUpInteractor provideSignUpInteractor(SignUpAPIService signUpAPIService, EmailAPIService emailAPIService){
+        return new SignUpInteractor(signUpAPIService,emailAPIService);
     }
 
 }

@@ -5,15 +5,15 @@ import android.text.TextUtils;
 import com.example.marce.luckypuzzle.common.LuckyPresenter;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.io.callback.SignInCallback;
-import com.example.marce.luckypuzzle.ui.viewModel.SignInView;
+import com.example.marce.luckypuzzle.ui.viewModel.SignUpOptions;
 
 /**
  * Created by marce on 27/03/17.
  */
 
-public class SignInPresenterImp extends LuckyPresenter<SignInView,SignInInteractor> implements SignInPresenter,SignInCallback {
+public class SignInPresenterImp extends LuckyPresenter<SignUpOptions,SignInInteractor> implements SignInPresenter,SignInCallback {
 
-    public SignInPresenterImp(SignInView mView,SignInInteractor mInteractor) {
+    public SignInPresenterImp(SignUpOptions mView, SignInInteractor mInteractor) {
         super(mView,mInteractor);
     }
 
