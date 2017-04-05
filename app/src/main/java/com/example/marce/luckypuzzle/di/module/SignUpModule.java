@@ -3,6 +3,7 @@ package com.example.marce.luckypuzzle.di.module;
 import com.example.marce.luckypuzzle.di.scopes.FragmentScope;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
+import com.example.marce.luckypuzzle.interactor.UploadInteractor;
 import com.example.marce.luckypuzzle.presenter.SignInPresenterImp;
 import com.example.marce.luckypuzzle.presenter.SignUpPresenterImp;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpOptions;
@@ -29,8 +30,12 @@ public class SignUpModule {
         return signUpView;
     }
 
-    @Provides @FragmentScope public SignUpPresenterImp providePresenter(SignUpView signUpView, SignUpInteractor signUpInteractor){
-        return new SignUpPresenterImp(signUpView,signUpInteractor);
+//    @Provides @FragmentScope public SignUpPresenterImp providePresenter(SignUpView signUpView, SignUpInteractor signUpInteractor){
+//        return new SignUpPresenterImp(signUpView,signUpInteractor);
+//    }
+
+    @Provides @FragmentScope public SignUpPresenterImp providePresenter(SignUpView signUpView, UploadInteractor uploadInteractor){
+        return new SignUpPresenterImp(signUpView,uploadInteractor);
     }
 
 }

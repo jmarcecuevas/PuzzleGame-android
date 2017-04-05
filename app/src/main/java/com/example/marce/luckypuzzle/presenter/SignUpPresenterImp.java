@@ -1,10 +1,12 @@
 package com.example.marce.luckypuzzle.presenter;
 
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.example.marce.luckypuzzle.common.LuckyPresenter;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
+import com.example.marce.luckypuzzle.interactor.UploadInteractor;
 import com.example.marce.luckypuzzle.io.callback.SignUpCallback;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpView;
 
@@ -12,11 +14,11 @@ import com.example.marce.luckypuzzle.ui.viewModel.SignUpView;
  * Created by marce on 29/03/17.
  */
 
-public class SignUpPresenterImp extends LuckyPresenter<SignUpView,SignUpInteractor> implements SignUpPresenter,SignUpCallback{
+public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteractor> implements SignUpPresenter,SignUpCallback{
 
 
-    public SignUpPresenterImp(SignUpView mView, SignUpInteractor mInteractor) {
-        super(mView, mInteractor);
+    public SignUpPresenterImp(SignUpView mView, UploadInteractor uploadInteractor) {
+        super(mView, uploadInteractor);
     }
 
 
@@ -49,8 +51,8 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,SignUpInteract
     }
 
     @Override
-    public void signUp(String userName, String email, String password) {
-        if(TextUtils.isEmpty(email))
+    public void signUp(String mediaPath) {
+        /*if(TextUtils.isEmpty(email))
             getView().setEmptyEmailError();
         else if(isValidEmail(email)){
             getView().setValidEmail(true);
@@ -65,9 +67,9 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,SignUpInteract
                 getView().setEmptyPasswordError();
             }
         }else if(getView().isUserNameValid() && getView().isPasswordValid() && getView().isEmailValid()){
-            getView().showProgress();
-            getInteractor().signUp(userName,email,password,this);
-        }
+            getView().showProgress();*/
+            getInteractor().uploadImage(mediaPath);
+
     }
 
     @Override

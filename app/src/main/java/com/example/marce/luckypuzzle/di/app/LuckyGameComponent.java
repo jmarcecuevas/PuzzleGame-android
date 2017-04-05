@@ -10,6 +10,7 @@ import android.content.Context;
 import com.example.marce.luckypuzzle.di.module.InteractorModule;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
+import com.example.marce.luckypuzzle.interactor.UploadInteractor;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
 import com.example.marce.luckypuzzle.io.callback.SignInCallback;
 import com.example.marce.luckypuzzle.utils.SessionManager;
@@ -33,4 +34,5 @@ public interface LuckyGameComponent {
     SessionManager sessionManager();
     SignInInteractor getSignInInteractor();
     SignUpInteractor getSignUpInteractor();
+    UploadInteractor getUploadInteractor();
 }

@@ -10,5 +10,6 @@ public class URLUtils {
     public static final String UPDATE_LOCATION_URL= "PDO/UpdateLocation.php";
     public static final String SIGNUP_URL= "PDO/Register.php";
     public static final String CHECK_EMAIL_URL= "PDO/CheckEmail.php";
+    public static final String UPLOAD_IMAGE_URL="puzzle/upload.php";
 
 }

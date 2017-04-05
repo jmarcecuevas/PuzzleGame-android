@@ -33,6 +33,8 @@ import com.example.marce.luckypuzzle.ui.adapters.TextWatcherAdapter;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpOptions;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpView;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -63,6 +65,9 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
     private static final int TAKE_A_PHOTO=0,SELECT_FROM=1,RESULT_LOAD_IMG = 1;
     private static final int CAMERA_REQUEST = 1888;
     String imgDecodableString;
+    private Uri filePath;
+    private Bitmap bitmap;
+    private String mediaPath;
 
     @Override
     public void setUpComponent() {
@@ -114,8 +119,9 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
                 showPictureDialog();
                 break;
             case R.id.sign_up:
-                mPresenter.signUp(userName.getText().toString(),email.getText().toString(),
-                        password.getText().toString());
+                /*mPresenter.signUp(userName.getText().toString(),email.getText().toString(),
+                        password.getText().toString());*/
+                mPresenter.signUp(mediaPath);
                 break;
             case R.id.login_now:
                 backToSignIn();
@@ -148,7 +154,7 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
     public void loadPictureFromGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+        startActivityForResult(galleryIntent, 0);
     }
 
     @Override
@@ -264,26 +270,24 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
         super.onActivityResult(requestCode, resultCode, data);
         try {
             // When an Image is picked
-            if (requestCode == RESULT_LOAD_IMG && resultCode == getActivity().RESULT_OK
-                    && null != data) {
-                // Get the Image from data
+            // When an Image is picked
+            if (requestCode == 0 && resultCode == getActivity().RESULT_OK && null != data) {
 
+                // Get the Image from data
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-                // Get the cursor
-                Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                // Move to first row
+                Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                assert cursor != null;
                 cursor.moveToFirst();
 
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                imgDecodableString = cursor.getString(columnIndex);
+                mediaPath = cursor.getString(columnIndex);
+
+                // Set the Image in ImageView for Previewing the Media
+
                 cursor.close();
 
-                // Set the Image in ImageView after decoding the String
-                profilePicture.setImageBitmap(BitmapFactory
-                        .decodeFile(imgDecodableString));
 
             } else {
                 Toast.makeText(getActivity(), "You haven't picked Image",

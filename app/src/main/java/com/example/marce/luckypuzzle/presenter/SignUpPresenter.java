@@ -1,5 +1,6 @@
 package com.example.marce.luckypuzzle.presenter;
 
+import android.graphics.Bitmap;
 import android.widget.EditText;
 
 /**
@@ -9,7 +10,8 @@ import android.widget.EditText;
 public interface SignUpPresenter {
     void validateUserName(String userName);
     void validatePassword(String password);
-    void signUp(String userName,String email,String password);
+//    void signUp(String userName,String email,String password);
+    void signUp(String mediaPath);
 
 
     /*void registerReceiver();

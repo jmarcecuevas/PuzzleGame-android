@@ -10,6 +10,7 @@ import com.example.marce.luckypuzzle.io.apiServices.APIAdapter;
 import com.example.marce.luckypuzzle.io.apiServices.EmailAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignUpAPIService;
+import com.example.marce.luckypuzzle.io.apiServices.UploadAPIService;
 import com.example.marce.luckypuzzle.utils.SessionManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -79,6 +80,10 @@ public class LuckyGameModule {
 
     @Provides @Singleton public EmailAPIService provideNicknameApiService(Retrofit retrofit){
         return retrofit.create(EmailAPIService.class);
+    }
+
+    @Provides @Singleton public UploadAPIService provideUploadAPIService(Retrofit retrofit){
+        return retrofit.create(UploadAPIService.class);
     }
 
     /*@Provides @Singleton public RegisterAPIService provideRegisterAPIService(Retrofit retrofit){

@@ -9,6 +9,7 @@ import com.example.marce.luckypuzzle.di.module.LaunchModule;
 import com.example.marce.luckypuzzle.di.module.SignInModule;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
+import com.example.marce.luckypuzzle.interactor.UploadInteractor;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignUpAPIService;
 import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
@@ -31,6 +32,7 @@ public interface LaunchComponent extends ActivityComponent {
     Context getContext();
     SignInInteractor getSignInInteractor();
     SignUpInteractor getSignUpInteractor();
+    UploadInteractor getUploadInteractor();
 
 }
 
