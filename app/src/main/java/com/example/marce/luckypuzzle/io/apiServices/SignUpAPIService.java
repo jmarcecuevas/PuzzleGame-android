@@ -17,5 +17,6 @@ public interface SignUpAPIService {
     @POST(URLUtils.SIGNUP_URL)
     Call<SignUpResponse> inserUser(@Field("userName") String userName,
                                    @Field("email") String email,
+                                   @Field("image_url")String image_url,
                                    @Field("password") String password);
 }

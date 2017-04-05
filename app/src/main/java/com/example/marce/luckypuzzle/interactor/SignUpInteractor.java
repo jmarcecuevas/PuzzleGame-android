@@ -29,7 +29,7 @@ public class SignUpInteractor {
     }
 
     public void signUp(String userName, String email, String password, final SignUpCallback registerCallback){
-        Call<SignUpResponse> call= signUpAPIService.inserUser(userName,email,password);
+       /* Call<SignUpResponse> call= signUpAPIService.inserUser(userName,email,password);
         call.enqueue(new retrofit2.Callback<SignUpResponse>() {
             @Override
             public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
@@ -51,7 +51,7 @@ public class SignUpInteractor {
                 Log.e(TAG,"UNKNOWN ERROR");
                 registerCallback.onUnknownError();
             }
-        });
+        });*/
     }
 
     /** It Checks whether email exists on database**/

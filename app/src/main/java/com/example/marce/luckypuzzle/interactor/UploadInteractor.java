@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.marce.luckypuzzle.io.apiServices.EmailAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignUpAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.UploadAPIService;
+import com.example.marce.luckypuzzle.io.callback.SignUpCallback;
 import com.example.marce.luckypuzzle.model.SignUpResponse;
 import com.example.marce.luckypuzzle.model.UploadResponse;
 
@@ -25,16 +26,19 @@ import retrofit2.Response;
 
 public class UploadInteractor {
     private static String TAG= UploadAPIService.class.getSimpleName();
+    private SignUpAPIService signUpAPIService;
     private UploadAPIService uploadAPIService;
 
-    public UploadInteractor(UploadAPIService uploadAPIService){
+    public UploadInteractor(SignUpAPIService signUpAPIService,UploadAPIService uploadAPIService){
         this.uploadAPIService=uploadAPIService;
+        this.signUpAPIService=signUpAPIService;
     }
 
-    public void uploadImage(String mediaPath){
-        File file = new File(mediaPath);
+    public void uploadImage(final String userName, final String email, final String password, String mediaPath, final SignUpCallback signUpCallback){
+        final File file = new File(mediaPath);
+        final String image_url="http://luckycode.esy.es/puzzle/images";
+        //final String imageURL="http:"
 
-        // Parsing any Media type file
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
         RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
@@ -46,20 +50,46 @@ public class UploadInteractor {
                 UploadResponse serverResponse = response.body();
                 if (serverResponse != null) {
                     if (serverResponse.getSuccess()) {
-                        //Toast.makeText(getApplicationContext(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e("SI","IMAGEN");
+                        signUp(userName,email,image_url,password,signUpCallback);
                     } else {
-                        //Toast.makeText(getApplicationContext(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        signUpCallback.onImageError();
                     }
                 } else {
                     assert serverResponse != null;
-                    Log.v("Response", serverResponse.toString());
+                    signUpCallback.onUnknownError();
                 }
-//                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<UploadResponse> call, Throwable t) {
+            }
+        });
+    }
 
+    public void signUp(String userName, String email, String mediaPath,String password, final SignUpCallback signUpCallback){
+        Call<SignUpResponse> call= signUpAPIService.inserUser(userName,email,mediaPath,password);
+        call.enqueue(new retrofit2.Callback<SignUpResponse>() {
+            @Override
+            public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
+                SignUpResponse mResponse= response.body();
+                if(mResponse!=null){
+                    if(mResponse.isSuccessful()){
+                        Log.i(TAG,"SUCCESSFUL REGISTER");
+                        signUpCallback.onSuccessSignUp();
+                    }
+                    else if(mResponse.doesUserExist()){
+                        Log.i(TAG,"USERNAME ALREADY EXISTS");
+                        signUpCallback.onUserAlreadyExists();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignUpResponse> call, Throwable t) {
+                Log.e(TAG,"UNKNOWN ERROR");
+                t.printStackTrace();
+                signUpCallback.onUnknownError();
             }
         });
     }

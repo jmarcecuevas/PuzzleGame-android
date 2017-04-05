@@ -28,8 +28,8 @@ public class InteractorModule {
     }
 
     @Provides
-    UploadInteractor provideUploadInteractor(UploadAPIService uploadAPIService){
-        return new UploadInteractor(uploadAPIService);
+    UploadInteractor provideUploadInteractor(SignUpAPIService signUpAPIService,UploadAPIService uploadAPIService){
+        return new UploadInteractor(signUpAPIService,uploadAPIService);
     }
 
 }

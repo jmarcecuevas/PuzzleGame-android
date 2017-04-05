@@ -2,7 +2,9 @@ package com.example.marce.luckypuzzle.presenter;
 
 import android.graphics.Bitmap;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.marce.luckypuzzle.common.LuckyPresenter;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
@@ -25,10 +27,12 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteract
     @Override
     public void validateUserName(String userName) {
         if(userName.length()<6){
+            Log.e("VALIDO","NO");
             getView().setValidUserName(false);
             getView().setInvalidUserNameError();
         }else{
             getView().setValidUserName(true);
+            Log.e("VALIDO","SI");
         }
     }
 
@@ -51,10 +55,10 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteract
     }
 
     @Override
-    public void signUp(String mediaPath) {
-        /*if(TextUtils.isEmpty(email))
+    public void signUp(String userName,String email,String password,String mediaPath) {
+        if(TextUtils.isEmpty(email)){
             getView().setEmptyEmailError();
-        else if(isValidEmail(email)){
+        }else if(isValidEmail(email)){
             getView().setValidEmail(true);
         }else if(!isValidEmail(email)){
             getView().setInvalidEmailError();
@@ -67,9 +71,9 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteract
                 getView().setEmptyPasswordError();
             }
         }else if(getView().isUserNameValid() && getView().isPasswordValid() && getView().isEmailValid()){
-            getView().showProgress();*/
-            getInteractor().uploadImage(mediaPath);
-
+            getView().showProgress();
+            getInteractor().uploadImage(userName,email,mediaPath,password,this);
+        }
     }
 
     @Override
@@ -82,6 +86,12 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteract
     public void onUserAlreadyExists() {
         getView().hideProgress();
         getView().setUserAlreadyExistsError();
+    }
+
+    @Override
+    public void onImageError() {
+        getView().hideProgress();
+
     }
 
     @Override

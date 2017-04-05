@@ -121,7 +121,7 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
             case R.id.sign_up:
                 /*mPresenter.signUp(userName.getText().toString(),email.getText().toString(),
                         password.getText().toString());*/
-                mPresenter.signUp(mediaPath);
+                mPresenter.signUp(userName.getText().toString(),email.getText().toString(),password.getText().toString(),mediaPath);
                 break;
             case R.id.login_now:
                 backToSignIn();
@@ -213,12 +213,12 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
 
     @Override
     public boolean isUserNameValid() {
-        return validUserName;
+        return this.validUserName;
     }
 
     @Override
     public boolean isEmailValid() {
-        return validEmail;
+        return this.validEmail;
     }
 
     @Override
@@ -262,7 +262,7 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
 
     @Override
     public boolean isPasswordValid() {
-        return false;
+        return validPassword;
     }
 
     @Override
@@ -283,6 +283,7 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
 
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 mediaPath = cursor.getString(columnIndex);
+                profilePicture.setImageBitmap(bitmap);
 
                 // Set the Image in ImageView for Previewing the Media
 

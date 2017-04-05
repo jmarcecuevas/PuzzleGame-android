@@ -11,7 +11,7 @@ public interface SignUpPresenter {
     void validateUserName(String userName);
     void validatePassword(String password);
 //    void signUp(String userName,String email,String password);
-    void signUp(String mediaPath);
+    void signUp(String userName,String email,String password,String mediaPath);
 
 
     /*void registerReceiver();
