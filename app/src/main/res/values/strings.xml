@@ -1,11 +1,8 @@
 <resources>
     <string name="app_name">LuckyPuzzle</string>
     <string name="facebook_app_id">120678975139467</string>
-    <string name="sign_up_with">Sign up with</string>
-    <string name="nickname">Nickname</string>
     <string name="password">Password</string>
     <string name="sign_in">SIGN IN</string>
-    <string name="register_now">Not registered? Register now!</string>
     <string name="login_now">Already registered? Login now!</string>
     <string name="failedLogin">Sign in failed. Invalid userName or password.</string>
     <string name="pleaseWait">Please wait...</string>
@@ -18,9 +15,6 @@
     <string name="signInStatus">Sign In Status</string>
     <string name="enterAnUserName">Enter an userName</string>
     <string name="enterAPassword">Enter a password</string>
-    <string name="takeAPhoto">Take a photo</string>
-    <string name="selectPhoto">Select from gallery</string>
-    <string name="chooseAPhoto">Choose a photo</string>
     <string name="emptyUserName">UserName cannot be empty</string>
     <string name="emptyPassword">Password cannot be empty</string>
     <string name="emptyEmail">Email cannot be empty</string>
@@ -29,4 +23,7 @@
     <string name="invalidEmail">Invalid email</string>
     <string name="sigupStatus">Sign up status</string>
     <string name="invalidUsername">This userName already exists</string>
+    <string name="pick_image_intent_text">Pick image</string>
+    <string name="updateImageError">Error tryng to update photo</string>
+    <string name="emptyImageError">You need to choose a profile photo</string>
 </resources>

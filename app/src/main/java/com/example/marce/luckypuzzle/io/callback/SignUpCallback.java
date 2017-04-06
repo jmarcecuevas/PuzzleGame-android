@@ -8,5 +8,7 @@ public interface SignUpCallback {
     void onSuccessSignUp();
     void onUserAlreadyExists();
     void onImageError();
+    void onEmptyImageError();
+    void onImageSuccess();
     void onUnknownError();
 }

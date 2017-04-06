@@ -6,10 +6,13 @@ package com.example.marce.luckypuzzle.ui.viewModel;
 
 public interface SignUpView {
     void showPictureDialog();
-    void loadPictureFromGallery();
     void showProgress();
     void hideProgress();
-    void cancelProgress();
+    void showImageProgress();
+    void hideImageProgress();
+    void updatePhoto();
+    void updateImageError();
+    void setEmptyImageError();
     void setEmptyUserNameError();
     void setEmptyPasswordError();
     void setEmptyEmailError();

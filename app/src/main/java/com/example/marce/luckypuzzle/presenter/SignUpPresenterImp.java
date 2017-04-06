@@ -1,13 +1,9 @@
 package com.example.marce.luckypuzzle.presenter;
 
-import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.marce.luckypuzzle.common.LuckyPresenter;
-import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
 import com.example.marce.luckypuzzle.interactor.UploadInteractor;
 import com.example.marce.luckypuzzle.io.callback.SignUpCallback;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpView;
@@ -55,7 +51,7 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteract
     }
 
     @Override
-    public void signUp(String userName,String email,String password,String mediaPath) {
+    public void signUp(String userName,String email,String password) {
         if(TextUtils.isEmpty(email)){
             getView().setEmptyEmailError();
         }else if(isValidEmail(email)){
@@ -72,8 +68,14 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteract
             }
         }else if(getView().isUserNameValid() && getView().isPasswordValid() && getView().isEmailValid()){
             getView().showProgress();
-            getInteractor().uploadImage(userName,email,mediaPath,password,this);
+            getInteractor().signUp(userName,email,password,this);
         }
+    }
+
+    @Override
+    public void uploadPhoto(String mediaPath) {
+        getView().showImageProgress();
+        getInteractor().uploadImage(mediaPath,this);
     }
 
     @Override
@@ -91,7 +93,20 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteract
     @Override
     public void onImageError() {
         getView().hideProgress();
+        Log.e("ERROR","RRR");
+    }
 
+    @Override
+    public void onEmptyImageError() {
+        getView().hideProgress();
+        getView().setEmptyImageError();
+    }
+
+    @Override
+    public void onImageSuccess() {
+        getView().hideImageProgress();
+        getView().updatePhoto();
+        Log.e("TODO","OK");
     }
 
     @Override

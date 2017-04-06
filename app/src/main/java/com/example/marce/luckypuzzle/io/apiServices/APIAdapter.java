@@ -20,6 +20,7 @@ public class APIAdapter {
 
     public static Retrofit getInstance(){
         Gson gson = new GsonBuilder()
+                .setLenient()
 //                .setExclusionStrategies(new ExclusionStrategy() {
 //                    /**This excludes Marker object used in NearbyPlayer
 //                     * class to avoid GSON problems.

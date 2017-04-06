@@ -8,11 +8,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
+import android.support.transition.Visibility;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +36,7 @@ import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
 import com.example.marce.luckypuzzle.ui.adapters.TextWatcherAdapter;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpOptions;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpView;
+import com.example.marce.luckypuzzle.utils.ImagePicker;
 
 import java.io.IOException;
 
@@ -45,7 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by marce on 26/03/17.
  */
 
-public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.OnClickListener*/{
+public class SignUpFragment extends LuckyFragment implements SignUpView{
 
     @Inject SignUpPresenterImp mPresenter;
     @BindView(R.id.login_now)TextView loginNow;
@@ -57,17 +62,14 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
     @BindView(R.id.userName_layout)TextInputLayout userNameLayout;
     @BindView(R.id.email_layout)TextInputLayout emailLayout;
     @BindView(R.id.password_layout)TextInputLayout passwordLayout;
+    @BindView(R.id.uploadPhoto)FloatingActionButton uploadPhoto;
+    @BindView(R.id.progressImage)ProgressBar progressImage;
+    private static final int PICK_IMAGE_ID = 234;
+    private Bitmap photo;
     private Animation animShake;
     private ProgressDialog progressDialog;
     private android.support.v7.app.AlertDialog alertDialog;
-    private CharSequence pictureOpions[];
     private boolean validUserName,validPassword,validEmail=true;
-    private static final int TAKE_A_PHOTO=0,SELECT_FROM=1,RESULT_LOAD_IMG = 1;
-    private static final int CAMERA_REQUEST = 1888;
-    String imgDecodableString;
-    private Uri filePath;
-    private Bitmap bitmap;
-    private String mediaPath;
 
     @Override
     public void setUpComponent() {
@@ -101,8 +103,6 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
 
     @Override
     protected void init() {
-        pictureOpions= new CharSequence[] {getString(R.string.takeAPhoto),
-                getString(R.string.selectPhoto)};
         progressDialog= new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
         progressDialog.setMessage(getString(R.string.pleaseWait));
@@ -112,49 +112,10 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
     }
 
 
-    @OnClick({R.id.profilePicture,R.id.login_now,R.id.sign_up})
-    public void OnClick(View v){
-        switch (v.getId()){
-            case R.id.profilePicture:
-                showPictureDialog();
-                break;
-            case R.id.sign_up:
-                /*mPresenter.signUp(userName.getText().toString(),email.getText().toString(),
-                        password.getText().toString());*/
-                mPresenter.signUp(userName.getText().toString(),email.getText().toString(),password.getText().toString(),mediaPath);
-                break;
-            case R.id.login_now:
-                backToSignIn();
-                break;
-        }
-    }
-
     @Override
     public void showPictureDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getString(R.string.chooseAPhoto));
-        builder.setItems(pictureOpions, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case TAKE_A_PHOTO:
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                        break;
-                    case SELECT_FROM:
-                        loadPictureFromGallery();
-                        break;
-                }
-            }
-        });
-        builder.show();
-    }
-
-    @Override
-    public void loadPictureFromGallery() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, 0);
+        Intent chooseImageIntent = ImagePicker.getPickImageIntent(getActivity());
+        startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
     }
 
     @Override
@@ -168,9 +129,30 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
     }
 
     @Override
-    public void cancelProgress() {
-
+    public void showImageProgress() {
+        progressImage.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void hideImageProgress() {
+        progressImage.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updatePhoto() {
+        profilePicture.setImageBitmap(photo);
+    }
+
+    @Override
+    public void updateImageError() {
+        Toast.makeText(getActivity(),R.string.updateImageError,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setEmptyImageError() {
+        Toast.makeText(getActivity(),R.string.emptyImageError,Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public void setEmptyUserNameError() {
@@ -268,46 +250,32 @@ public class SignUpFragment extends LuckyFragment implements SignUpView/*,View.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        try {
-            // When an Image is picked
-            // When an Image is picked
-            if (requestCode == 0 && resultCode == getActivity().RESULT_OK && null != data) {
-
-                // Get the Image from data
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                assert cursor != null;
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                mediaPath = cursor.getString(columnIndex);
-                profilePicture.setImageBitmap(bitmap);
-
-                // Set the Image in ImageView for Previewing the Media
-
-                cursor.close();
-
-
-            } else {
-                Toast.makeText(getActivity(), "You haven't picked Image",
-                        Toast.LENGTH_LONG).show();
-            }
-        } catch (Exception e) {
-            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_LONG)
-                    .show();
+        if(requestCode == PICK_IMAGE_ID && resultCode == getActivity().RESULT_OK){
+            photo=ImagePicker.getImageFromResult(getActivity(),resultCode,data);
+            mPresenter.uploadPhoto(ImagePicker.getMediaPath());
         }
 
-        if (requestCode == CAMERA_REQUEST && resultCode == getActivity().RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            profilePicture.setImageBitmap(photo);
-        }
     }
 
     private void requestFocus(View view) {
         if (view.requestFocus()) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+    @OnClick({R.id.uploadPhoto,R.id.login_now,R.id.sign_up})
+    public void OnClick(View v){
+        switch (v.getId()){
+            case R.id.uploadPhoto:
+                showPictureDialog();
+                break;
+            case R.id.sign_up:
+                mPresenter.signUp(userName.getText().toString(),email.getText().toString(),
+                        password.getText().toString());
+                break;
+            case R.id.login_now:
+                backToSignIn();
+                break;
         }
     }
 
