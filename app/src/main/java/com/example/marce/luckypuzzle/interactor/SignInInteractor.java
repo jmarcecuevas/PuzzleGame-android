@@ -21,15 +21,15 @@ public class SignInInteractor {
         this.signInAPIService=signInAPIService;
     }
 
-    public void signIn(String email,String password,final SignInCallback callback){
-        Call<SignInResponse> call= signInAPIService.login(email,password);
+    public void signIn(final String userName, String password, final SignInCallback callback){
+        Call<SignInResponse> call= signInAPIService.login(userName,password);
         call.enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 SignInResponse mResponse= response.body();
                 if(mResponse!=null){
                     if(mResponse.isSuccessful()){
-                        callback.onSuccessLogin();
+                        callback.onSuccessLogin(userName,mResponse.getImageURL());
                     }
 
                     else
@@ -41,6 +41,5 @@ public class SignInInteractor {
 
             }
         });
-
     }
 }

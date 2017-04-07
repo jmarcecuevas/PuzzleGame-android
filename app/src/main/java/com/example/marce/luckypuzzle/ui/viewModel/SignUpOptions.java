@@ -8,7 +8,7 @@ public interface SignUpOptions {
     void setUserNameError();
     void setPasswordError();
     void setInvalidCredentialsError();
-    void setSuccessLogin();
+    void setSuccessLogin(String userName,String imageURL);
     void signUpWithFacebook();
     void signUpWithLuckyCode();
     void showProgress();

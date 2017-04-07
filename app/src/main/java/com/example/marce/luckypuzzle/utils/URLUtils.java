@@ -6,7 +6,7 @@ package com.example.marce.luckypuzzle.utils;
 
 public class URLUtils {
     public static final String BASE_URL = "http://luckycode.esy.es/";
-    public static final String SIGNIN_URL= "puzzle/Login.php";
+    public static final String SIGNIN_URL= "puzzle/login.php";
     public static final String UPDATE_LOCATION_URL= "PDO/UpdateLocation.php";
     public static final String SIGNUP_URL= "puzzle/sign_up.php";
     public static final String CHECK_EMAIL_URL= "PDO/CheckEmail.php";

@@ -13,6 +13,7 @@ import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
 import com.example.marce.luckypuzzle.interactor.UploadInteractor;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
 import com.example.marce.luckypuzzle.io.callback.SignInCallback;
+import com.example.marce.luckypuzzle.model.Facebook;
 import com.example.marce.luckypuzzle.utils.SessionManager;
 
 import javax.inject.Singleton;
@@ -35,4 +36,5 @@ public interface LuckyGameComponent {
     SignInInteractor getSignInInteractor();
     SignUpInteractor getSignUpInteractor();
     UploadInteractor getUploadInteractor();
+    Facebook getFacebook();
 }

@@ -12,6 +12,7 @@ import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
 import com.example.marce.luckypuzzle.interactor.UploadInteractor;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignUpAPIService;
+import com.example.marce.luckypuzzle.model.Facebook;
 import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
 
 import dagger.Component;
@@ -33,6 +34,6 @@ public interface LaunchComponent extends ActivityComponent {
     SignInInteractor getSignInInteractor();
     SignUpInteractor getSignUpInteractor();
     UploadInteractor getUploadInteractor();
-
+    Facebook getFacebook();
 }
 

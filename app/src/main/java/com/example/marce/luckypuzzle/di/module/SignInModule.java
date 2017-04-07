@@ -2,6 +2,9 @@ package com.example.marce.luckypuzzle.di.module;
 
 import com.example.marce.luckypuzzle.di.scopes.FragmentScope;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
+import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
+import com.example.marce.luckypuzzle.interactor.UploadInteractor;
+import com.example.marce.luckypuzzle.model.Facebook;
 import com.example.marce.luckypuzzle.presenter.SignInPresenterImp;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpOptions;
 
@@ -24,8 +27,8 @@ public class SignInModule {
         return signUpOptions;
     }
 
-    @Provides @FragmentScope public SignInPresenterImp providePresenter(SignUpOptions signUpOptions, SignInInteractor signInInteractor){
-        return new SignInPresenterImp(signUpOptions,signInInteractor);
+    @Provides @FragmentScope public SignInPresenterImp providePresenter(SignUpOptions signUpOptions, SignInInteractor signInInteractor, UploadInteractor uploadInteractor, Facebook facebook){
+        return new SignInPresenterImp(signUpOptions,signInInteractor,uploadInteractor,facebook);
     }
 
 }

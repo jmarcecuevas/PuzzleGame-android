@@ -1,5 +1,7 @@
 package com.example.marce.luckypuzzle.di.module;
 
+import android.content.Context;
+
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
 import com.example.marce.luckypuzzle.interactor.UploadInteractor;
@@ -7,6 +9,7 @@ import com.example.marce.luckypuzzle.io.apiServices.EmailAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignUpAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.UploadAPIService;
+import com.example.marce.luckypuzzle.model.Facebook;
 
 import dagger.Module;
 import dagger.Provides;
@@ -30,6 +33,11 @@ public class InteractorModule {
     @Provides
     UploadInteractor provideUploadInteractor(SignUpAPIService signUpAPIService,UploadAPIService uploadAPIService){
         return new UploadInteractor(signUpAPIService,uploadAPIService);
+    }
+
+    @Provides
+    Facebook provideFacebook(Context context,EmailAPIService emailAPIService){
+        return new Facebook(context,emailAPIService);
     }
 
 }

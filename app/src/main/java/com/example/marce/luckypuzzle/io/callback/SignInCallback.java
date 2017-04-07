@@ -5,6 +5,6 @@ package com.example.marce.luckypuzzle.io.callback;
  */
 
 public interface SignInCallback {
-    void onSuccessLogin();
+    void onSuccessLogin(String userName,String imageURL);
     void onFailedLogin();
 }
