@@ -1,5 +1,7 @@
 package com.example.marce.luckypuzzle.ui.activities;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,15 +12,25 @@ import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyActivity;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
 import com.example.marce.luckypuzzle.di.component.ActivityComponent;
+import com.example.marce.luckypuzzle.di.component.DaggerHomeComponent;
+import com.example.marce.luckypuzzle.di.component.DaggerSignUpActivityComponent;
+import com.example.marce.luckypuzzle.di.component.HomeComponent;
+import com.example.marce.luckypuzzle.di.module.HomeActivityModule;
+import com.example.marce.luckypuzzle.di.module.SignUpActivityModule;
+import com.example.marce.luckypuzzle.presenter.HomePresenterImp;
+import com.example.marce.luckypuzzle.ui.viewModel.HomeView;
 import com.squareup.picasso.Picasso;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HomeActivity extends LuckyActivity {
-
+public class HomeActivity extends LuckyActivity implements HomeView {
+    private HomeComponent homeComponent;
+    @Inject HomePresenterImp mPresenter;
     @BindView(R.id.photo)CircleImageView photo;
     @BindView(R.id.greeting)TextView greeting;
     @BindView(R.id.logout)Button logout;
@@ -27,8 +39,13 @@ public class HomeActivity extends LuckyActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        mPresenter.checkSession();
+
         greeting.setText("Welcome " + getIntent().getStringExtra("userName"));
-        Picasso.with(this).load(getIntent().getStringExtra("imageURL")).into(photo);
+        if(getIntent().getStringExtra("imageURL")!=null)
+            Picasso.with(this).load(getIntent().getStringExtra("imageURL")).into(photo);
+        else
+            photo.setImageBitmap((Bitmap)getIntent().getParcelableExtra("photo"));
     }
 
     @Override
@@ -38,7 +55,10 @@ public class HomeActivity extends LuckyActivity {
 
     @Override
     protected void setupActivityComponent(LuckyGameComponent appComponent) {
-
+        homeComponent= DaggerHomeComponent.builder()
+                .luckyGameComponent(appComponent)
+                .homeActivityModule(new HomeActivityModule(this)).build();
+        homeComponent.inject(this);
     }
 
     @Override
@@ -52,5 +72,11 @@ public class HomeActivity extends LuckyActivity {
             case R.id.logout:
             break;
         }
+    }
+
+    @Override
+    public void goToSignUpActivity() {
+        startActivity(new Intent(HomeActivity.this,SignUpActivity.class));
+        finish();
     }
 }

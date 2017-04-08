@@ -2,10 +2,12 @@ package com.example.marce.luckypuzzle.di.module;
 
 import android.content.Context;
 
+import com.example.marce.luckypuzzle.interactor.HomeInteractor;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
 import com.example.marce.luckypuzzle.interactor.UploadInteractor;
 import com.example.marce.luckypuzzle.io.apiServices.EmailAPIService;
+import com.example.marce.luckypuzzle.io.apiServices.FacebookAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignUpAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.UploadAPIService;
@@ -36,8 +38,13 @@ public class InteractorModule {
     }
 
     @Provides
-    Facebook provideFacebook(Context context,EmailAPIService emailAPIService){
-        return new Facebook(context,emailAPIService);
+    Facebook provideFacebook(Context context, EmailAPIService emailAPIService, FacebookAPIService facebookAPIService){
+        return new Facebook(context,emailAPIService,facebookAPIService);
+    }
+
+    @Provides
+    HomeInteractor provideHomeInteractor(){
+        return new HomeInteractor();
     }
 
 }

@@ -2,26 +2,23 @@ package com.example.marce.luckypuzzle.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyActivity;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
-import com.example.marce.luckypuzzle.di.component.DaggerLaunchComponent;
-import com.example.marce.luckypuzzle.di.component.LaunchComponent;
-import com.example.marce.luckypuzzle.di.module.LaunchModule;
+import com.example.marce.luckypuzzle.di.component.DaggerSignUpActivityComponent;
+import com.example.marce.luckypuzzle.di.component.SignUpActivityComponent;
+import com.example.marce.luckypuzzle.di.module.SignUpActivityModule;
 import com.example.marce.luckypuzzle.ui.fragments.SignUpOptionsFragment;
 import com.example.marce.luckypuzzle.utils.SessionManager;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LaunchActivity extends LuckyActivity {
-    private LaunchComponent launchComponent;
+public class SignUpActivity extends LuckyActivity {
+    private SignUpActivityComponent signUpActivityComponent;
     private FrameLayout fragmentContainer;
     @Inject SessionManager sessionManager;
     @Inject Context context;
@@ -42,15 +39,15 @@ public class LaunchActivity extends LuckyActivity {
 
     @Override
     protected void setupActivityComponent(LuckyGameComponent appComponent) {
-        launchComponent = DaggerLaunchComponent.builder()
+        signUpActivityComponent = DaggerSignUpActivityComponent.builder()
                 .luckyGameComponent(appComponent)
-                .launchModule(new LaunchModule()).build();
-        launchComponent.inject(this);
+                .signUpActivityModule(new SignUpActivityModule()).build();
+        signUpActivityComponent.inject(this);
     }
 
     @Override
-    public LaunchComponent getComponent() {
-        return launchComponent;
+    public SignUpActivityComponent getComponent() {
+        return signUpActivityComponent;
     }
 
     @Override

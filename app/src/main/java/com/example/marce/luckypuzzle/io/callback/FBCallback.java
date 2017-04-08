@@ -5,6 +5,6 @@ package com.example.marce.luckypuzzle.io.callback;
  */
 
 public interface FBCallback {
-    void onFBUserAlreadyExists();
-    void onNewFacebookUser();
+    void onFBUserAlreadyExists(String userName,String imageURL);
+    void onNewFacebookUser(String email);
 }

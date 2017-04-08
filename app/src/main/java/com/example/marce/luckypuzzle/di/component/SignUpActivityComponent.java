@@ -3,21 +3,17 @@ package com.example.marce.luckypuzzle.di.component;
 import android.content.Context;
 
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
+import com.example.marce.luckypuzzle.di.module.SignUpActivityModule;
 import com.example.marce.luckypuzzle.di.scopes.ActivityScope;
-//import com.example.marce.luckypuzzle.di.module.LaunchModule;
-import com.example.marce.luckypuzzle.di.module.LaunchModule;
-import com.example.marce.luckypuzzle.di.module.SignInModule;
+//import com.example.marce.luckypuzzle.di.module.SignUpActivityModule;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
 import com.example.marce.luckypuzzle.interactor.UploadInteractor;
-import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
-import com.example.marce.luckypuzzle.io.apiServices.SignUpAPIService;
 import com.example.marce.luckypuzzle.model.Facebook;
-import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
+import com.example.marce.luckypuzzle.ui.activities.SignUpActivity;
+import com.example.marce.luckypuzzle.utils.SessionManager;
 
 import dagger.Component;
-import dagger.Subcomponent;
-import retrofit2.Retrofit;
 
 /**
  * Created by marce on 29/03/17.
@@ -25,12 +21,13 @@ import retrofit2.Retrofit;
 
 @ActivityScope
 @Component(dependencies = LuckyGameComponent.class,modules = {
-        LaunchModule.class}
+        SignUpActivityModule.class}
 )
-public interface LaunchComponent extends ActivityComponent {
-    void inject(LaunchActivity launchActivity);
+public interface SignUpActivityComponent extends ActivityComponent {
+    void inject(SignUpActivity signUpActivity);
 
     Context getContext();
+    SessionManager getSessionManager();
     SignInInteractor getSignInInteractor();
     SignUpInteractor getSignUpInteractor();
     UploadInteractor getUploadInteractor();

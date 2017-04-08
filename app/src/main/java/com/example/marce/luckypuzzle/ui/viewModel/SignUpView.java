@@ -18,7 +18,7 @@ public interface SignUpView {
     void setEmptyEmailError();
     void setValidUserName(boolean validUserName);
     void setValidEmail(boolean validEmail);
-    void setSuccessSignUp();
+    void setSuccessSignUp(String userName);
     boolean isUserNameValid();
     boolean isEmailValid();
     void setInvalidUserNameError();

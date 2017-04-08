@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -22,12 +21,11 @@ import com.example.marce.luckypuzzle.di.component.DaggerSignUpOptionsComponent;
 import com.example.marce.luckypuzzle.di.module.SignInModule;
 import com.example.marce.luckypuzzle.presenter.SignInPresenterImp;
 import com.example.marce.luckypuzzle.ui.activities.HomeActivity;
-import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
+import com.example.marce.luckypuzzle.ui.activities.SignUpActivity;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpOptions;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
@@ -62,7 +60,7 @@ public class SignUpOptionsFragment extends LuckyFragment implements FacebookCall
     @Override
     public void setUpComponent() {
         DaggerSignUpOptionsComponent.builder()
-                .launchComponent(((LaunchActivity)getActivity()).getComponent())
+                .signUpActivityComponent(((SignUpActivity)getActivity()).getComponent())
                 .signInModule(new SignInModule(this)).build().inject(this);
     }
 
@@ -125,7 +123,7 @@ public class SignUpOptionsFragment extends LuckyFragment implements FacebookCall
 
     @Override
     public void signUpWithLuckyCode() {
-        ((LaunchActivity)getActivity()).replaceFragmentWithBackStackAnimation(SignUpFragment.class,false);
+        ((SignUpActivity)getActivity()).replaceFragmentWithBackStackAnimation(SignUpFragment.class,false);
     }
 
     @Override
@@ -174,16 +172,6 @@ public class SignUpOptionsFragment extends LuckyFragment implements FacebookCall
 
     @Override
     public void onSuccess(LoginResult loginResult) {
-        /*String firstName = null;
-        if (Profile.getCurrentProfile() != null) {
-            Profile profile = Profile.getCurrentProfile();
-            firstName = profile.getFirstName();
-            String lastName = profile.getLastName();
-            String photoUrl = profile.getProfilePictureUri(200, 200).toString();
-            profile.get
-            Log.e("IMAGE",photoUrl);
-        }
-        Toast.makeText(getActivity(),firstName,Toast.LENGTH_LONG).show();*/
         mPresenter.requestFacebookUserData(loginResult);
     }
 

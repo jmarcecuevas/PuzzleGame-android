@@ -10,9 +10,9 @@ import dagger.Provides;
  */
 
 @Module
-public class LaunchModule {
+public class SignUpActivityModule {
 
-    public LaunchModule(){
+    public SignUpActivityModule(){
 
     }
 

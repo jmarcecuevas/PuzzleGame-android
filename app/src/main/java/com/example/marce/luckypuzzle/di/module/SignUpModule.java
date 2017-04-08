@@ -8,6 +8,7 @@ import com.example.marce.luckypuzzle.presenter.SignInPresenterImp;
 import com.example.marce.luckypuzzle.presenter.SignUpPresenterImp;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpOptions;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpView;
+import com.example.marce.luckypuzzle.utils.SessionManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -34,8 +35,8 @@ public class SignUpModule {
 //        return new SignUpPresenterImp(signUpView,signUpInteractor);
 //    }
 
-    @Provides @FragmentScope public SignUpPresenterImp providePresenter(SignUpView signUpView, UploadInteractor uploadInteractor){
-        return new SignUpPresenterImp(signUpView,uploadInteractor);
+    @Provides @FragmentScope public SignUpPresenterImp providePresenter(SignUpView signUpView, UploadInteractor uploadInteractor, SessionManager sessionManager){
+        return new SignUpPresenterImp(signUpView,uploadInteractor,sessionManager);
     }
 
 }

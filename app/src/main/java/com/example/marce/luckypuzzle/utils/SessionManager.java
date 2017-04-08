@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
+import com.example.marce.luckypuzzle.ui.activities.SignUpActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -75,29 +75,15 @@ public class SessionManager {
         editor.commit();
     }
 
-    /**
-     * Check login method wil check user login status.
-     * If false it will redirect user to MainLoginActivity
-     */
+
     public boolean checkStatusLogin() {
         // Check login status
         if (!this.isLoggedIn()) {
-            // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, LaunchActivity.class);
-            // Closing all the Activities
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-
-            // Staring Login Activity
-            _context.startActivity(i);
-
             return false;
         }
         return true;
     }
+
 
     public String getUsername(){
         return pref.getString(KEY_USERNAME,"NULL");
@@ -112,7 +98,7 @@ public class SessionManager {
         editor.commit();
 
         // After logout redirects user to MainLoginActivity
-        Intent i = new Intent(_context, LaunchActivity.class);
+        Intent i = new Intent(_context, SignUpActivity.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -149,9 +135,6 @@ public class SessionManager {
                 });
     }
 
-    /**
-     * Quick check for login
-     **/
     // Get Login State
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);

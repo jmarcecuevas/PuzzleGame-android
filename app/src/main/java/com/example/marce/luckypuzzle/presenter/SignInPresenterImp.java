@@ -2,6 +2,7 @@ package com.example.marce.luckypuzzle.presenter;
 
 import android.hardware.camera2.params.Face;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.marce.luckypuzzle.common.LuckyPresenter;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
@@ -9,16 +10,21 @@ import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
 import com.example.marce.luckypuzzle.interactor.UploadInteractor;
 import com.example.marce.luckypuzzle.io.apiServices.UploadAPIService;
 import com.example.marce.luckypuzzle.io.callback.FBCallback;
+import com.example.marce.luckypuzzle.io.callback.FacebookSignUpCallback;
 import com.example.marce.luckypuzzle.io.callback.SignInCallback;
+import com.example.marce.luckypuzzle.io.callback.SignUpCallback;
 import com.example.marce.luckypuzzle.model.Facebook;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpOptions;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 
 /**
  * Created by marce on 27/03/17.
  */
 
-public class SignInPresenterImp extends LuckyPresenter<SignUpOptions,SignInInteractor> implements SignInPresenter,SignInCallback,FBCallback {
+public class SignInPresenterImp extends LuckyPresenter<SignUpOptions,SignInInteractor> implements SignInPresenter,
+        SignInCallback,FBCallback,FacebookSignUpCallback {
+
     private UploadInteractor uploadInteractor;
     private Facebook facebook;
 
@@ -43,7 +49,7 @@ public class SignInPresenterImp extends LuckyPresenter<SignUpOptions,SignInInter
 
     @Override
     public void requestFacebookUserData(LoginResult result) {
-
+        facebook.requestFacebookUserData(result,this);
     }
 
     @Override
@@ -59,12 +65,30 @@ public class SignInPresenterImp extends LuckyPresenter<SignUpOptions,SignInInter
     }
 
     @Override
-    public void onFBUserAlreadyExists() {
-
+    public void onFBUserAlreadyExists(String userName, String imageURL) {
+        getView().setSuccessLogin(userName,imageURL);
     }
 
     @Override
-    public void onNewFacebookUser() {
+    public void onNewFacebookUser(String email) {
+        String userName="",imageURL="";
+        if (Profile.getCurrentProfile() != null) {
+            Log.e("HOLA","NEW USER");
+            Profile profile = Profile.getCurrentProfile();
+            userName = profile.getFirstName() + " " + profile.getLastName();
+            imageURL = profile.getProfilePictureUri(200, 200).toString();
+        }
+        facebook.signUp(userName,email,imageURL,this);
+    }
+
+
+    @Override
+    public void onSuccessSignUpFB(String userName, String email, String imageURL) {
+        getView().setSuccessLogin(userName,imageURL);
+    }
+
+    @Override
+    public void onUnknownErrorFB() {
 
     }
 }

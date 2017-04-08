@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.marce.luckypuzzle.io.apiServices.APIAdapter;
 import com.example.marce.luckypuzzle.io.apiServices.EmailAPIService;
+import com.example.marce.luckypuzzle.io.apiServices.FacebookAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignInAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.SignUpAPIService;
 import com.example.marce.luckypuzzle.io.apiServices.UploadAPIService;
@@ -84,6 +85,10 @@ public class LuckyGameModule {
 
     @Provides @Singleton public UploadAPIService provideUploadAPIService(Retrofit retrofit){
         return retrofit.create(UploadAPIService.class);
+    }
+
+    @Provides @Singleton public FacebookAPIService provideFacebookAPIService(Retrofit retrofit){
+        return retrofit.create(FacebookAPIService.class);
     }
 
     /*@Provides @Singleton public RegisterAPIService provideRegisterAPIService(Retrofit retrofit){

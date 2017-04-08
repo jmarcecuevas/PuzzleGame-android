@@ -65,8 +65,7 @@ public class UploadInteractor {
         });
     }
 
-    public void signUp(String userName, String email,String password, final SignUpCallback signUpCallback){
-        Log.e("DATOS",userName+" "+email+" "+" "+password+" "+imagePath);
+    public void signUp(final String userName, String email, final String password, final SignUpCallback signUpCallback){
         if(imagePath!=null){
             Call<SignUpResponse> call= signUpAPIService.inserUser(userName,email,imagePath,password);
             call.enqueue(new retrofit2.Callback<SignUpResponse>() {
@@ -76,7 +75,7 @@ public class UploadInteractor {
                     if(mResponse!=null){
                         if(mResponse.isSuccessful()){
                             Log.i(TAG,"SUCCESSFUL REGISTER");
-                            signUpCallback.onSuccessSignUp();
+                            signUpCallback.onSuccessSignUp(userName,password);
                         }
                         else if(mResponse.doesUserExist()){
                             Log.i(TAG,"USERNAME ALREADY EXISTS");

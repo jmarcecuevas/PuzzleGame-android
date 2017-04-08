@@ -1,21 +1,12 @@
 package com.example.marce.luckypuzzle.ui.fragments;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
-import android.support.transition.Visibility;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -32,13 +23,12 @@ import com.example.marce.luckypuzzle.common.LuckyFragment;
 import com.example.marce.luckypuzzle.di.component.DaggerSignUpComponent;
 import com.example.marce.luckypuzzle.di.module.SignUpModule;
 import com.example.marce.luckypuzzle.presenter.SignUpPresenterImp;
-import com.example.marce.luckypuzzle.ui.activities.LaunchActivity;
+import com.example.marce.luckypuzzle.ui.activities.HomeActivity;
+import com.example.marce.luckypuzzle.ui.activities.SignUpActivity;
 import com.example.marce.luckypuzzle.ui.adapters.TextWatcherAdapter;
-import com.example.marce.luckypuzzle.ui.viewModel.SignUpOptions;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpView;
 import com.example.marce.luckypuzzle.utils.ImagePicker;
-
-import java.io.IOException;
+import com.example.marce.luckypuzzle.utils.SettingsManager;
 
 import javax.inject.Inject;
 
@@ -65,6 +55,7 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
     @BindView(R.id.uploadPhoto)FloatingActionButton uploadPhoto;
     @BindView(R.id.progressImage)ProgressBar progressImage;
     private static final int PICK_IMAGE_ID = 234;
+    private SettingsManager settingsManager;
     private Bitmap photo;
     private Animation animShake;
     private ProgressDialog progressDialog;
@@ -74,7 +65,7 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
     @Override
     public void setUpComponent() {
         DaggerSignUpComponent.builder()
-                .launchComponent(((LaunchActivity)getActivity()).getComponent())
+                .signUpActivityComponent(((SignUpActivity)getActivity()).getComponent())
                 .signUpModule(new SignUpModule(this))
                 .build().inject(this);
     }
@@ -189,8 +180,13 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
     }
 
     @Override
-    public void setSuccessSignUp() {
-        Toast.makeText(getActivity(),"SIGN UP SUCCESSFUL",Toast.LENGTH_LONG).show();
+    public void setSuccessSignUp(String userName) {
+        Intent intent=new Intent(getActivity(),HomeActivity.class);
+        intent.putExtra("userName",userName);
+        intent.putExtra("photo",photo);
+        settingsManager= new SettingsManager(getActivity(),userName);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     @Override
@@ -229,7 +225,7 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
 
     @Override
     public void backToSignIn() {
-        ((LaunchActivity)getActivity()).replaceFragmentWithBackStackAnimation(SignUpOptionsFragment.class,false);
+        ((SignUpActivity)getActivity()).replaceFragmentWithBackStackAnimation(SignUpOptionsFragment.class,false);
     }
 
     @Override
@@ -254,7 +250,6 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
             photo=ImagePicker.getImageFromResult(getActivity(),resultCode,data);
             mPresenter.uploadPhoto(ImagePicker.getMediaPath());
         }
-
     }
 
     private void requestFocus(View view) {

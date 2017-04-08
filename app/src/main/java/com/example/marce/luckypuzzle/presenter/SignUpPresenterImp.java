@@ -1,5 +1,6 @@
 package com.example.marce.luckypuzzle.presenter;
 
+import android.content.pm.PackageInstaller;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -7,28 +8,29 @@ import com.example.marce.luckypuzzle.common.LuckyPresenter;
 import com.example.marce.luckypuzzle.interactor.UploadInteractor;
 import com.example.marce.luckypuzzle.io.callback.SignUpCallback;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpView;
+import com.example.marce.luckypuzzle.utils.SessionManager;
+import com.example.marce.luckypuzzle.utils.SettingsManager;
 
 /**
  * Created by marce on 29/03/17.
  */
 
 public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteractor> implements SignUpPresenter,SignUpCallback{
+    private SessionManager sessionManager;
 
-
-    public SignUpPresenterImp(SignUpView mView, UploadInteractor uploadInteractor) {
+    public SignUpPresenterImp(SignUpView mView, UploadInteractor uploadInteractor, SessionManager sessionManager) {
         super(mView, uploadInteractor);
+        this.sessionManager=sessionManager;
     }
 
 
     @Override
     public void validateUserName(String userName) {
         if(userName.length()<6){
-            Log.e("VALIDO","NO");
             getView().setValidUserName(false);
             getView().setInvalidUserNameError();
         }else{
             getView().setValidUserName(true);
-            Log.e("VALIDO","SI");
         }
     }
 
@@ -79,9 +81,10 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteract
     }
 
     @Override
-    public void onSuccessSignUp() {
+    public void onSuccessSignUp(String userName,String password) {
         getView().hideProgress();
-        getView().setSuccessSignUp();
+        sessionManager.createLoginSession(userName,password);
+        getView().setSuccessSignUp(userName);
     }
 
     @Override
@@ -93,7 +96,6 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteract
     @Override
     public void onImageError() {
         getView().hideProgress();
-        Log.e("ERROR","RRR");
     }
 
     @Override
@@ -106,7 +108,6 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteract
     public void onImageSuccess() {
         getView().hideImageProgress();
         getView().updatePhoto();
-        Log.e("TODO","OK");
     }
 
     @Override

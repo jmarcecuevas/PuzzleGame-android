@@ -5,7 +5,7 @@ package com.example.marce.luckypuzzle.io.callback;
  */
 
 public interface SignUpCallback {
-    void onSuccessSignUp();
+    void onSuccessSignUp(String userName,String password);
     void onUserAlreadyExists();
     void onImageError();
     void onEmptyImageError();
