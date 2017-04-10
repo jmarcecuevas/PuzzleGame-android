@@ -233,6 +233,14 @@ public class ImagePicker {
         return cursor.getString(idx);
     }
 
+    public static byte[] getByteArrayFromBitmap(Bitmap bitmap){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bytes = stream.toByteArray();
+        return bytes;
+    }
+
+
     public static String getMediaPath(){
         return mediaPath;
     }

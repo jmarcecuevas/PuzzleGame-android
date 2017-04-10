@@ -181,10 +181,11 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
 
     @Override
     public void setSuccessSignUp(String userName) {
-        Intent intent=new Intent(getActivity(),HomeActivity.class);
-        intent.putExtra("userName",userName);
-        intent.putExtra("photo",photo);
         settingsManager= new SettingsManager(getActivity(),userName);
+        Intent intent=new Intent(getActivity(),HomeActivity.class);
+        byte[]photoByte=ImagePicker.getByteArrayFromBitmap(photo);
+        intent.putExtra("userName",userName);
+        intent.putExtra("photo",photoByte);
         startActivity(intent);
         getActivity().finish();
     }

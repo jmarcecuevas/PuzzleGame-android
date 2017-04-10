@@ -1,6 +1,7 @@
 package com.example.marce.luckypuzzle.presenter;
 
-import android.content.pm.PackageInstaller;
+import android.graphics.Bitmap;
+import android.view.View;
 
 import com.example.marce.luckypuzzle.common.LuckyPresenter;
 import com.example.marce.luckypuzzle.interactor.HomeInteractor;
@@ -24,5 +25,37 @@ public class HomePresenterImp extends LuckyPresenter<HomeView,HomeInteractor> im
         if(!sessionManager.isLoggedIn()){
             getView().goToSignUpActivity();
         }
+    }
+
+    @Override
+    public void scaleBitMap(Bitmap bitmap, View container) {
+        // Scale the bitmap to a proper size, avoiding waste of memory
+        Bitmap mFullBitmap;
+        assert container != null;
+        int paddingHorizontal = container.getPaddingLeft() + container.getPaddingRight();
+        int paddingVertical = container.getPaddingTop() + container.getPaddingBottom();
+        mFullBitmap = Bitmap.createScaledBitmap(
+                bitmap,
+                container.getWidth() - paddingHorizontal,
+                container.getHeight() - paddingVertical,
+                false);
+        getView().getScaledBitMap(mFullBitmap);
+    }
+
+    @Override
+    public void cutBitMapIntoPieces(Bitmap bitmap,int spanCount,int dividerWidth) {
+        Bitmap[] bitmapBricks= new Bitmap[spanCount*spanCount];
+        int brickWidth = (bitmap.getWidth() - dividerWidth * (spanCount - 1)) / spanCount;
+        int brickHeight = (bitmap.getHeight() - dividerWidth * (spanCount - 1)) / spanCount;
+        for (int i = 0; i < spanCount; i++) {
+            for (int j = 0; j < spanCount; j++) {
+                bitmapBricks[i * spanCount + j] = Bitmap.createBitmap(
+                        bitmap,
+                        j * (brickWidth + dividerWidth),
+                        i * (brickHeight + dividerWidth),
+                        brickWidth, brickHeight);
+            }
+        }
+        getView().showBitmapIntoSquares(bitmapBricks);
     }
 }

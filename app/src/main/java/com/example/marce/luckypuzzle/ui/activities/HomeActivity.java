@@ -1,23 +1,24 @@
 package com.example.marce.luckypuzzle.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyActivity;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
 import com.example.marce.luckypuzzle.di.component.ActivityComponent;
 import com.example.marce.luckypuzzle.di.component.DaggerHomeComponent;
-import com.example.marce.luckypuzzle.di.component.DaggerSignUpActivityComponent;
 import com.example.marce.luckypuzzle.di.component.HomeComponent;
 import com.example.marce.luckypuzzle.di.module.HomeActivityModule;
-import com.example.marce.luckypuzzle.di.module.SignUpActivityModule;
 import com.example.marce.luckypuzzle.presenter.HomePresenterImp;
+import com.example.marce.luckypuzzle.ui.fragments.GameFragment;
 import com.example.marce.luckypuzzle.ui.viewModel.HomeView;
 import com.squareup.picasso.Picasso;
 
@@ -25,27 +26,41 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends LuckyActivity implements HomeView {
+    public static final int BLANK_BRICK = 8;
+    public static final int[][] GOAL_STATUS = {{0, 1, 2}, {3, 4, 5}, {6, 7, BLANK_BRICK}};
     private HomeComponent homeComponent;
     @Inject HomePresenterImp mPresenter;
     @BindView(R.id.photo)CircleImageView photo;
-    @BindView(R.id.greeting)TextView greeting;
-    @BindView(R.id.logout)Button logout;
+    @BindView(R.id.board_container)FrameLayout boardContainer;
+    //@BindView(R.id.imageView)ImageView imageView;
+    private Bitmap photoDecoded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        mPresenter.checkSession();
 
-        greeting.setText("Welcome " + getIntent().getStringExtra("userName"));
         if(getIntent().getStringExtra("imageURL")!=null)
             Picasso.with(this).load(getIntent().getStringExtra("imageURL")).into(photo);
-        else
-            photo.setImageBitmap((Bitmap)getIntent().getParcelableExtra("photo"));
+        else{
+            byte[] bytes = getIntent().getByteArrayExtra("photo");
+            photoDecoded = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            photo.setImageBitmap(photoDecoded);
+        }
+        final View container = findViewById(R.id.board_container);
+        container.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mPresenter.scaleBitMap(photoDecoded,container);
+                if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
+                    container.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                else
+                    container.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
     }
 
     @Override
@@ -63,20 +78,28 @@ public class HomeActivity extends LuckyActivity implements HomeView {
 
     @Override
     protected ActivityComponent getComponent() {
-        return null;
+        return homeComponent;
     }
 
-    @OnClick({R.id.logout})
-    public void OnClick(View v){
-        switch (v.getId()){
-            case R.id.logout:
-            break;
-        }
-    }
 
     @Override
     public void goToSignUpActivity() {
         startActivity(new Intent(HomeActivity.this,SignUpActivity.class));
         finish();
+    }
+
+    @Override
+    public void getScaledBitMap(Bitmap bitmap) {
+        mPresenter.cutBitMapIntoPieces(bitmap,3,2);
+    }
+
+    @Override
+    public void showBitmapIntoSquares(Bitmap[] bitmaps) {
+        bitmaps[8]=BitmapFactory.decodeResource(getResources(),R.drawable.blank_brick);
+        //mBitmapBricks[SPAN_COUNT * SPAN_COUNT - 1] = BitmapFactory.decodeResource(getResources(), R.drawable.blank_brick);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.board_container, GameFragment.newInstance(bitmaps, GOAL_STATUS))
+                .commit();
     }
 }

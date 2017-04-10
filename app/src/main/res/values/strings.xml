@@ -26,4 +26,5 @@
     <string name="pick_image_intent_text">Pick image</string>
     <string name="updateImageError">Error tryng to update photo</string>
     <string name="emptyImageError">You need to choose a profile photo</string>
+    <string name="title_activity_choose_picture">ChoosePictureActivity</string>
 </resources>
