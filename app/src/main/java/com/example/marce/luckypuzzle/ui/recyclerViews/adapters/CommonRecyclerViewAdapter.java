@@ -2,6 +2,7 @@ package com.example.marce.luckypuzzle.ui.recyclerViews.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,22 +42,23 @@ public abstract class CommonRecyclerViewAdapter<T> extends RecyclerView.Adapter<
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        if (mOnItemClickListener != null) {
+        //if (mOnItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mOnItemClickListener.onItemClick(v, holder.getLayoutPosition());
+                    Log.e("SFDASD","HOLAAAAAAAA");
                 }
             });
-        }
-        if (mOnItemLongClickListener != null) {
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return mOnItemLongClickListener.onItemLongClick(v, holder.getLayoutPosition());
-                }
-            });
-        }
+        //}
+//        if (mOnItemLongClickListener != null) {
+//            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//                    return mOnItemLongClickListener.onItemLongClick(v, holder.getLayoutPosition());
+//                }
+//            });
+//        }
         onItemViewAppear(holder, mDataArray[position], position);
     }
 

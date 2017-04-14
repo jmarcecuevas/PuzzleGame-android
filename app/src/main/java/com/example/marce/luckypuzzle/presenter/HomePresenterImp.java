@@ -8,6 +8,10 @@ import com.example.marce.luckypuzzle.interactor.HomeInteractor;
 import com.example.marce.luckypuzzle.ui.viewModel.HomeView;
 import com.example.marce.luckypuzzle.utils.SessionManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by marce on 08/04/17.
  */
@@ -45,6 +49,7 @@ public class HomePresenterImp extends LuckyPresenter<HomeView,HomeInteractor> im
     @Override
     public void cutBitMapIntoPieces(Bitmap bitmap,int spanCount,int dividerWidth) {
         Bitmap[] bitmapBricks= new Bitmap[spanCount*spanCount];
+        //List bitmapBricks= new ArrayList<Bitmap>();
         int brickWidth = (bitmap.getWidth() - dividerWidth * (spanCount - 1)) / spanCount;
         int brickHeight = (bitmap.getHeight() - dividerWidth * (spanCount - 1)) / spanCount;
         for (int i = 0; i < spanCount; i++) {
@@ -56,6 +61,9 @@ public class HomePresenterImp extends LuckyPresenter<HomeView,HomeInteractor> im
                         brickWidth, brickHeight);
             }
         }
-        getView().showBitmapIntoSquares(bitmapBricks);
+        ArrayList<Bitmap> bitmaps= new ArrayList<Bitmap>(Arrays.asList(bitmapBricks));
+
+        //getView().showBitmapIntoSquares(bitmapBricks);
+        getView().showBitmapIntoSquares(bitmaps);
     }
 }
