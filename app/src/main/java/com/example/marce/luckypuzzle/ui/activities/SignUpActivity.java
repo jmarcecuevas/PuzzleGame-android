@@ -51,6 +51,11 @@ public class SignUpActivity extends LuckyActivity {
     }
 
     @Override
+    protected void init() {
+
+    }
+
+    @Override
     public int getFragmentLayout() {
         return fragmentContainer.getId();
     }

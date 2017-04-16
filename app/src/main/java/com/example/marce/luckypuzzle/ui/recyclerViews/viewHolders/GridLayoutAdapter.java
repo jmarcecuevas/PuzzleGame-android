@@ -10,8 +10,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.marce.luckypuzzle.R;
+import com.example.marce.luckypuzzle.model.Square;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,11 +27,14 @@ import java.util.Collections;
 public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.ItemViewHolder>
         implements ItemTouchHelperAdapter {
 
-    private final ArrayList<Bitmap> mData;
+    private final ArrayList<Square> mData;
     private final OnDragStartListener mDragStartListener;
+    private final AdapterListener mAdapterListener;
 
-    public GridLayoutAdapter(ArrayList<Bitmap> mData,OnDragStartListener dragStartListener) {
+
+    public GridLayoutAdapter(ArrayList<Square> mData,OnDragStartListener dragStartListener,AdapterListener adapterListener) {
         this.mData=mData;
+        this.mAdapterListener=adapterListener;
         mDragStartListener = dragStartListener;
     }
 
@@ -40,7 +47,8 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.It
 
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
-        holder.imageView.setImageBitmap(mData.get(position));
+        holder.imageView.setImageBitmap(mData.get(position).getPicture());
+        holder.number.setText(String.valueOf(mData.get(position).getPosition()));
         if(position==mData.size()-1)
             holder.imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -57,6 +65,7 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.It
     public void onItemMoveHorizontally(int fromPosition, int toPosition) {
         Collections.swap(mData,fromPosition,toPosition);
         notifyItemMoved(fromPosition,toPosition);
+        mAdapterListener.onItemMoved();
     }
 
     @Override
@@ -64,6 +73,7 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.It
         Collections.swap(mData,fromPosition,toPosition);
         notifyItemMoved(fromPosition,toPosition);
         notifyItemMoved(toPosition+1,fromPosition);
+        mAdapterListener.onItemMoved();
     }
 
     @Override
@@ -71,6 +81,7 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.It
         Collections.swap(mData,fromPosition,toPosition);
         notifyItemMoved(fromPosition,toPosition);
         notifyItemMoved(toPosition-1,fromPosition);
+        mAdapterListener.onItemMoved();
     }
 
     @Override
@@ -88,11 +99,13 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.It
     public static class ItemViewHolder extends RecyclerView.ViewHolder implements
             ItemTouchHelperViewHolder {
 
-        public final ImageView imageView;
+        public ImageView imageView;
+        public TextView number;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            number=(TextView) itemView.findViewById(R.id.number);
         }
 
         @Override
@@ -108,5 +121,9 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.It
 
     public interface OnDragStartListener {
         void onDragStarted(RecyclerView.ViewHolder viewHolder);
+    }
+
+    public interface AdapterListener{
+        void onItemMoved();
     }
 }

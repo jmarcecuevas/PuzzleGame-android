@@ -17,9 +17,11 @@ import com.example.marce.luckypuzzle.di.component.ActivityComponent;
 import com.example.marce.luckypuzzle.di.component.DaggerHomeComponent;
 import com.example.marce.luckypuzzle.di.component.HomeComponent;
 import com.example.marce.luckypuzzle.di.module.HomeActivityModule;
+import com.example.marce.luckypuzzle.model.Square;
 import com.example.marce.luckypuzzle.presenter.HomePresenterImp;
 import com.example.marce.luckypuzzle.ui.fragments.GameFragment;
 import com.example.marce.luckypuzzle.ui.viewModel.HomeView;
+import com.example.marce.luckypuzzle.utils.ImagePicker;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class HomeActivity extends LuckyActivity implements HomeView {
             photoDecoded = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             photo.setImageBitmap(photoDecoded);
         }*/
-        final Bitmap photoDecoded= BitmapFactory.decodeResource(getResources(),R.drawable.horse);
+        final Bitmap photoDecoded= BitmapFactory.decodeResource(getResources(),R.drawable.pic4);
         final View container = findViewById(R.id.board_container);
         container.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -72,12 +74,17 @@ public class HomeActivity extends LuckyActivity implements HomeView {
         homeComponent= DaggerHomeComponent.builder()
                 .luckyGameComponent(appComponent)
                 .homeActivityModule(new HomeActivityModule(this)).build();
-        homeComponent.inject(this);
+            homeComponent.inject(this);
     }
 
     @Override
-    protected ActivityComponent getComponent() {
+    public HomeComponent getComponent() {
         return homeComponent;
+    }
+
+    @Override
+    protected void init() {
+
     }
 
 
@@ -89,16 +96,16 @@ public class HomeActivity extends LuckyActivity implements HomeView {
 
     @Override
     public void getScaledBitMap(Bitmap bitmap) {
-        mPresenter.cutBitMapIntoPieces(bitmap,3,2);
+        mPresenter.cutBitMapIntoPieces(bitmap,2,2);
     }
 
     @Override
     public void showBitmapIntoSquares(ArrayList<Bitmap> bitmaps) {
-        //bitmaps[8]=BitmapFactory.decodeResource(getResources(),R.drawable.blank_brick);
-        bitmaps.set(3 * 3 - 1,BitmapFactory.decodeResource(getResources(), R.drawable.blank_brick));
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.board_container, GameFragment.newInstance(bitmaps))
-                .commit();
+        ArrayList<Square> squares= new ArrayList<>();
+        for(int i=0;i<bitmaps.size();i++){
+            squares.add(new Square(bitmaps.get(i),i));
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.board_container,GameFragment.newInstance(squares,R.drawable.horse)).commit();
+
     }
 }

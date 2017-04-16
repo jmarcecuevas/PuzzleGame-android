@@ -27,4 +27,19 @@
     <string name="updateImageError">Error tryng to update photo</string>
     <string name="emptyImageError">You need to choose a profile photo</string>
     <string name="title_activity_choose_picture">ChoosePictureActivity</string>
+    <string name="selectApicture">Select a picture</string>
+    <string name="start">Start</string>
+    <string name="browse">Browse</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="choseAPicture">Select a picture</string>
+    <string name="ranking">Ranking</string>
+    <string name="myBest">My best</string>
+    <string name="otherOptions">Other options</string>
+    <string name="settings">Settings</string>
+    <string name="signOut">Sign out</string>
+    <string name="random">Random</string>
 </resources>

@@ -8,6 +8,7 @@ import android.content.Context;
 //import com.example.marce.luckypuzzle.di.module.SignUpActivityModule;
 
 import com.example.marce.luckypuzzle.di.module.InteractorModule;
+import com.example.marce.luckypuzzle.interactor.GameInteractor;
 import com.example.marce.luckypuzzle.interactor.HomeInteractor;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
@@ -39,4 +40,5 @@ public interface LuckyGameComponent {
     UploadInteractor getUploadInteractor();
     Facebook getFacebook();
     HomeInteractor getHomeInteractor();
+    GameInteractor getGameInteractor();
 }

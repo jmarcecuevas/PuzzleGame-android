@@ -102,7 +102,6 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
         animShake = AnimationUtils.loadAnimation(getActivity(),R.anim.shake);
     }
 
-
     @Override
     public void showPictureDialog() {
         Intent chooseImageIntent = ImagePicker.getPickImageIntent(getActivity());
@@ -143,7 +142,6 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
     public void setEmptyImageError() {
         Toast.makeText(getActivity(),R.string.emptyImageError,Toast.LENGTH_SHORT).show();
     }
-
 
     @Override
     public void setEmptyUserNameError() {

@@ -47,10 +47,10 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             if (x == 1 || x == -1) {
                 mAdapter.onItemMoveHorizontally(source.getAdapterPosition(), target.getAdapterPosition());
                 dragAllowed=false;
-            } else if (x == 3) {
+            } else if (x == 2) {
                 dragAllowed=false;
                 mAdapter.onItemMoveVerticallyUp(source.getAdapterPosition(), target.getAdapterPosition());
-            } else if (x == -3) {
+            } else if (x == -2) {
                 dragAllowed=false;
                 mAdapter.onItemMoveVerticallyDown(source.getAdapterPosition(), target.getAdapterPosition());
             }

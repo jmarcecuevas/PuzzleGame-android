@@ -2,6 +2,7 @@ package com.example.marce.luckypuzzle.di.module;
 
 import android.content.Context;
 
+import com.example.marce.luckypuzzle.interactor.GameInteractor;
 import com.example.marce.luckypuzzle.interactor.HomeInteractor;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
@@ -45,6 +46,11 @@ public class InteractorModule {
     @Provides
     HomeInteractor provideHomeInteractor(){
         return new HomeInteractor();
+    }
+
+    @Provides
+    GameInteractor provideGameInteractor(){
+        return new GameInteractor();
     }
 
 }

@@ -45,7 +45,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/userName_layout"
-        android:background="#00000000"
+        android:textColorHint="#CFD8DC"
+        app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
         android:layout_centerHorizontal="true">>
 
         <EditText
@@ -54,6 +55,8 @@
             android:hint="@string/userName"
             android:ems="10"
             android:id="@+id/userName"
+            android:theme="@style/EditTextTheme"
+            android:textColor="#FFFFFF"
             android:singleLine="true"/>
 
     </android.support.design.widget.TextInputLayout>
@@ -62,14 +65,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/email_layout"
+        android:textColorHint="#CFD8DC"
+        app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
         android:layout_centerHorizontal="true">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
+            android:textColor="#FFFFFF"
             android:ems="10"
             android:id="@+id/email"
+            android:theme="@style/EditTextTheme"
             android:singleLine="true"
             android:inputType="textEmailAddress" />
 
@@ -79,6 +86,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/password_layout"
+        android:textColorHint="#CFD8DC"
+        app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
         android:layout_centerHorizontal="true">
 
         <EditText
@@ -86,6 +95,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:ems="10"
+            android:textColor="#FFFFFF"
+            android:theme="@style/EditTextTheme"
             android:id="@+id/password"
             android:singleLine="true"
             android:inputType="textPassword" />

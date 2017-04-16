@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".ui.activities.HomeActivity">
+        <activity android:name=".ui.activities.ChoosePictureActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,9 +24,9 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".ui.activities.ChosePictureActivity" />
+        <activity android:name=".ui.activities.HomeActivity" />
         <activity android:name=".ui.activities.SplashActivity" />
-        <activity android:name=".ui.activities.SignUpActivity"></activity>
+        <activity android:name=".ui.activities.SignUpActivity" />
     </application>
 
 </manifest>

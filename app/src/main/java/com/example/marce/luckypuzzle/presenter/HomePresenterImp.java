@@ -1,6 +1,7 @@
 package com.example.marce.luckypuzzle.presenter;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 
 import com.example.marce.luckypuzzle.common.LuckyPresenter;

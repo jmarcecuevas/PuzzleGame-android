@@ -39,6 +39,7 @@ public abstract class LuckyActivity extends AppCompatActivity implements UiManag
         uiManager = new UiManager(getSupportFragmentManager());
         uiManager.setChangeFragmentListener(this);
         setupActivityComponent(LuckyGameApp.getLuckyComponent(this));
+        init();
     }
 
     /**
@@ -49,6 +50,8 @@ public abstract class LuckyActivity extends AppCompatActivity implements UiManag
     protected abstract void setupActivityComponent(LuckyGameComponent appComponent);
 
     protected abstract ActivityComponent getComponent();
+
+    protected abstract void init();
 
     @Override
     public void startActivity(Intent intent){

@@ -23,7 +23,6 @@ public class SignUpPresenterImp extends LuckyPresenter<SignUpView,UploadInteract
         this.sessionManager=sessionManager;
     }
 
-
     @Override
     public void validateUserName(String userName) {
         if(userName.length()<6){
