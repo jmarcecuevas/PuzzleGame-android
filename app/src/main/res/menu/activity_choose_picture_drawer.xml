@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/ranking"
+            android:icon="@drawable/ranking"
+            android:title="@string/ranking"/>
+        <item
+            android:id="@+id/myBest"
+            android:icon="@drawable/favorite"
+            android:title="@string/myBest" />
+    </group>
+
+    <item android:title="@string/otherOptions">
+        <menu>
+            <item
+                android:id="@+id/settings"
+                android:icon="@drawable/settings"
+                android:title="@string/settings" />
+            <item
+                android:id="@+id/signout"
+                android:icon="@drawable/logout"
+                android:title="@string/signOut" />
+        </menu>
+    </item>
+
+</menu>

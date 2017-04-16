@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_seccion_1"
+            android:icon="@drawable/splash2"
+            android:title="Section one"/>
+        <item
+            android:id="@+id/menu_seccion_2"
+            android:icon="@drawable/splash2"
+            android:title="Section two"/>
+        <item
+            android:id="@+id/menu_seccion_3"
+            android:icon="@drawable/splash2"
+            android:title="Section three"/>
+    </group>
+
+    <item
+        android:id="@+id/navigation_subheader"
+        android:title="Other options">
+        <menu>
+            <item
+                android:id="@+id/menu_opcion_1"
+                android:icon="@drawable/splash2"
+                android:title="Section four"/>
+            <item
+                android:id="@+id/menu_opcion_2"
+                android:icon="@drawable/splash2"
+                android:title="Section five"/>
+        </menu>
+    </item>
+</menu>
