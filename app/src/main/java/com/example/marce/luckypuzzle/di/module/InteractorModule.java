@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.marce.luckypuzzle.interactor.GameInteractor;
 import com.example.marce.luckypuzzle.interactor.HomeInteractor;
+import com.example.marce.luckypuzzle.interactor.ImageInteractor;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.interactor.SignUpInteractor;
 import com.example.marce.luckypuzzle.interactor.UploadInteractor;
@@ -51,6 +52,11 @@ public class InteractorModule {
     @Provides
     GameInteractor provideGameInteractor(){
         return new GameInteractor();
+    }
+
+    @Provides
+    ImageInteractor provideImageInteractor(){
+        return new ImageInteractor();
     }
 
 }

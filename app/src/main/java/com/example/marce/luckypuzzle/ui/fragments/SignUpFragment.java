@@ -3,6 +3,7 @@ package com.example.marce.luckypuzzle.ui.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +24,7 @@ import com.example.marce.luckypuzzle.common.LuckyFragment;
 import com.example.marce.luckypuzzle.di.component.DaggerSignUpComponent;
 import com.example.marce.luckypuzzle.di.module.SignUpModule;
 import com.example.marce.luckypuzzle.presenter.SignUpPresenterImp;
+import com.example.marce.luckypuzzle.ui.activities.ChoosePictureActivity;
 import com.example.marce.luckypuzzle.ui.activities.HomeActivity;
 import com.example.marce.luckypuzzle.ui.activities.SignUpActivity;
 import com.example.marce.luckypuzzle.ui.adapters.TextWatcherAdapter;
@@ -55,6 +57,7 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
     @BindView(R.id.uploadPhoto)FloatingActionButton uploadPhoto;
     @BindView(R.id.progressImage)ProgressBar progressImage;
     private static final int PICK_IMAGE_ID = 234;
+    private Uri uri;
     private SettingsManager settingsManager;
     private Bitmap photo;
     private Animation animShake;
@@ -180,10 +183,10 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
     @Override
     public void setSuccessSignUp(String userName) {
         settingsManager= new SettingsManager(getActivity(),userName);
-        Intent intent=new Intent(getActivity(),HomeActivity.class);
-        byte[]photoByte=ImagePicker.getByteArrayFromBitmap(photo);
+        Intent intent=new Intent(getActivity(),ChoosePictureActivity.class);
+        uri=ImagePicker.getImageUri(getActivity(),photo);
         intent.putExtra("userName",userName);
-        intent.putExtra("photo",photoByte);
+        intent.putExtra("uri",uri.toString());
         startActivity(intent);
         getActivity().finish();
     }

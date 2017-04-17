@@ -27,10 +27,8 @@ public class GamePresenterImp extends LuckyPresenter<GameView,GameInteractor> im
 
     @Override
     public void generateRandomStatus(ArrayList<Square> array) {
-        Log.e("HOA","PRESENTER");
         suffleList(array);
         getView().showRandomImages(array);
-
     }
 
     @Override

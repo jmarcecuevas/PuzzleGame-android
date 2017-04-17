@@ -1,8 +1,10 @@
 package com.example.marce.luckypuzzle.ui.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -35,20 +38,35 @@ import com.example.marce.luckypuzzle.ui.recyclerViews.itemDecoration.SquareGridS
 import com.example.marce.luckypuzzle.ui.recyclerViews.viewHolders.GridLayoutAdapter;
 import com.example.marce.luckypuzzle.ui.recyclerViews.viewHolders.ItemTouchHelperAdapter;
 import com.example.marce.luckypuzzle.ui.recyclerViews.viewHolders.SimpleItemTouchHelperCallback;
+import com.example.marce.luckypuzzle.utils.ImagePicker;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChoosePictureActivity extends LuckyActivity
         implements NavigationView.OnNavigationItemSelectedListener,PictureGalleryAdapter.ItemListener {
 
+    private static final int PICK_IMAGE_ID = 1;
     private RecyclerView mRecyclerView;
     private PictureGalleryAdapter adapter;
     private ArrayList<Integer> imageListId;
+    private Bitmap photo;
+    private boolean userImageSelected,ourImageSelected;
+    private int imageId;
+    private String uriString,uriPictureTaken;
+    private Uri uri;
+    private int spanCount=2;
+    private String profileUri;
+    private String userName;
     @BindView(R.id.imagePreview)ImageView imagePreview;
     @BindView(R.id.textInsideImage)TextView gridSize;
     @BindView(R.id.seekBar)SeekBar seekBar;
@@ -72,7 +90,12 @@ public class ChoosePictureActivity extends LuckyActivity
     @Override
     protected void init() {
         ButterKnife.bind(this);
-        imageListId = new ArrayList<Integer>();
+        if(getIntent().getStringExtra("uri")!=null)
+            uriString= getIntent().getStringExtra("uri");
+        else
+            uriString=getIntent().getStringExtra("imageURL");
+        userName= getIntent().getStringExtra("userName");
+        imageListId = new ArrayList<>();
         Field[] drawables = R.drawable.class.getFields();
         for (Field f : drawables) {
             if (f.getName().startsWith("pic"))
@@ -97,22 +120,25 @@ public class ChoosePictureActivity extends LuckyActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        CircleImageView profileImage= (CircleImageView) hView.findViewById(R.id.profileImage);
+        TextView user= (TextView) hView.findViewById(R.id.userName);
+        user.setText(userName);
+        Picasso.with(this).load(uriString).resize(128,128).into(profileImage);
+
         navigationView.setNavigationItemSelectedListener(this);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                gridSize.setText(String.valueOf(progress)+"x"+String.valueOf(progress));
+                spanCount=progress+2;
+                gridSize.setText(String.valueOf(spanCount)+"x"+String.valueOf(spanCount));
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
+            public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
     }
@@ -135,20 +161,7 @@ public class ChoosePictureActivity extends LuckyActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-//
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -158,5 +171,65 @@ public class ChoosePictureActivity extends LuckyActivity
     @Override
     public void onItemSelected(int position) {
         Picasso.with(this).load(imageListId.get(position)).resize(240,240).into(imagePreview);
+        ourImageSelected=true;
+        userImageSelected=false;
+        imageId=imageListId.get(position);
+    }
+
+    @OnClick({R.id.browse,R.id.start,R.id.random})
+    public void OnClick(View v){
+        switch (v.getId()){
+            case R.id.browse:
+                showPictureDialog();
+                break;
+            case R.id.random:
+                showRandomImage();
+                break;
+            case R.id.start:
+                startGame();
+                break;
+        }
+    }
+
+    private void showRandomImage(){
+        ourImageSelected=true;
+        userImageSelected=false;
+        Random randomGenerator = new Random();
+        int random= randomGenerator.nextInt(imageListId.size());
+        imageId=imageListId.get(random);
+        Picasso.with(this).load(imageListId.get(random)).resize(240,240).into(imagePreview);
+    }
+
+    private void startGame() {
+        if((userImageSelected||ourImageSelected)){
+            Intent intent= new Intent(this,HomeActivity.class);
+            if(userImageSelected)
+                intent.putExtra("uri",uri);
+            else if(ourImageSelected)
+                intent.putExtra("imageId",imageId);
+            intent.putExtra("spanCount",spanCount);
+            intent.putExtra("arrayImages",imageListId);
+            intent.putExtra("userName",userName);
+            intent.putExtra("profileUri",uriString);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    private void showPictureDialog() {
+        Intent chooseImageIntent = ImagePicker.getPickImageIntent(this);
+        startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_ID && resultCode == RESULT_OK){
+            photo=ImagePicker.getImageFromResult(this,resultCode,data);
+            uriPictureTaken= ImagePicker.getImageUri(this,photo).toString();
+            Picasso.with(this).load(uriPictureTaken).resize(240,240).into(imagePreview);
+            ourImageSelected=false;
+            userImageSelected=true;
+        }
     }
 }

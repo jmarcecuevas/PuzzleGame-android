@@ -45,12 +45,9 @@ public class Facebook {
             @Override
             public void onCompleted(final JSONObject object, GraphResponse response) {
                 try {
-                    Log.e("HOLA","TRY");
                     String email = object.getString("email");
-                    Log.e("EMAIL",email);
                     checkEmail(email,fbCallback);
                 } catch (JSONException e) {
-                    Log.e("HOLA","CATCH");
                     e.printStackTrace();
                 }
             }

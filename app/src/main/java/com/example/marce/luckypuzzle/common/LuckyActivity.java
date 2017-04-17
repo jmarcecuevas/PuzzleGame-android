@@ -21,6 +21,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by marce on 24/03/17.
  */
@@ -39,6 +41,7 @@ public abstract class LuckyActivity extends AppCompatActivity implements UiManag
         uiManager = new UiManager(getSupportFragmentManager());
         uiManager.setChangeFragmentListener(this);
         setupActivityComponent(LuckyGameApp.getLuckyComponent(this));
+        ButterKnife.bind(this);
         init();
     }
 

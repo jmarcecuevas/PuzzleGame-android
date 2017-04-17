@@ -42,4 +42,12 @@
     <string name="settings">Settings</string>
     <string name="signOut">Sign out</string>
     <string name="random">Random</string>
+    <string name="level">Level</string>
+    <string name="game_over">GAME OVER</string>
+    <string name="retry">Retry</string>
+    <string name="exit">Exit</string>
+    <string name="timeSpent">Time spent:</string>
+    <string name="moves">Moves: </string>
+    <string name="congratulions">Congratulations, you WIN</string>
+    <string name="next">Next</string>
 </resources>

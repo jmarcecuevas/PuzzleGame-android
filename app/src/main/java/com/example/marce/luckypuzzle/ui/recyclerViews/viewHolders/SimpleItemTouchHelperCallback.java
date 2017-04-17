@@ -13,12 +13,13 @@ import android.widget.ImageView;
 
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-    public static final float ALPHA_FULL = 1.0f;
     private final ItemTouchHelperAdapter mAdapter;
     private boolean dragAllowed=true;
+    private int spanCount;
 
-    public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+    public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter,int spanCount) {
         mAdapter = adapter;
+        this.spanCount=spanCount;
     }
 
     @Override
@@ -47,10 +48,10 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             if (x == 1 || x == -1) {
                 mAdapter.onItemMoveHorizontally(source.getAdapterPosition(), target.getAdapterPosition());
                 dragAllowed=false;
-            } else if (x == 2) {
+            } else if (x == spanCount) {
                 dragAllowed=false;
                 mAdapter.onItemMoveVerticallyUp(source.getAdapterPosition(), target.getAdapterPosition());
-            } else if (x == -2) {
+            } else if (x == -spanCount) {
                 dragAllowed=false;
                 mAdapter.onItemMoveVerticallyDown(source.getAdapterPosition(), target.getAdapterPosition());
             }

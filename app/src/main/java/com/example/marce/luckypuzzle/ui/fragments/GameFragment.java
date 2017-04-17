@@ -1,12 +1,15 @@
 package com.example.marce.luckypuzzle.ui.fragments;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.marce.luckypuzzle.R;
@@ -37,14 +40,15 @@ public class GameFragment extends LuckyFragment implements GameView,GridLayoutAd
     private ItemTouchHelper mItemTouchHelper;
     private GridLayoutAdapter adapter;
     private Bitmap photo;
+    private GameCallback listener;
     @BindView(R.id.wonImage)ImageView wonImage;
     @BindView(R.id.recyclerView)RecyclerView mRecyclerView;
     @Inject GamePresenterImp mPresenter;
 
-    public static Fragment newInstance(ArrayList<Square> squares,int photoID) {
+    public static Fragment newInstance(ArrayList<Square> squares,int spanCount) {
         Bundle args = new Bundle();
         args.putSerializable("squares", squares);
-        args.putInt("photoID",photoID);
+        args.putInt("spanCount",spanCount);
         GameFragment fragment = new GameFragment();
         fragment.setArguments(args);
         return fragment;
@@ -66,9 +70,9 @@ public class GameFragment extends LuckyFragment implements GameView,GridLayoutAd
     @Override
     protected void init() {
         mBitmapBricks = (ArrayList<Square>) getArguments().getSerializable("squares");
-        photo= BitmapFactory.decodeResource(getResources(),getArguments().getInt("photoID"));
+        mSpanCount= getArguments().getInt("spanCount");
+        Log.e("span",String.valueOf(mSpanCount));
         getArguments().remove("squares");
-        mSpanCount = 2;
         mPresenter.generateRandomStatus(mBitmapBricks);
         adapter= new GridLayoutAdapter(mBitmapBricks,this,this);
         mRecyclerView.setAdapter(adapter);
@@ -80,7 +84,7 @@ public class GameFragment extends LuckyFragment implements GameView,GridLayoutAd
         });
         mRecyclerView.addItemDecoration(new SquareGridSpacingItemDecoration(getActivity(),R.dimen.brick_divider_width,mSpanCount));
 
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter,mSpanCount);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
@@ -93,7 +97,7 @@ public class GameFragment extends LuckyFragment implements GameView,GridLayoutAd
 
     @Override
     public void showUserWon() {
-        wonImage.setImageBitmap(photo);
+        listener.onUserWon();
     }
 
     @Override
@@ -104,10 +108,28 @@ public class GameFragment extends LuckyFragment implements GameView,GridLayoutAd
     @Override
     public void onItemMoved() {
         mPresenter.isSorted(mBitmapBricks);
+        Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(75);
+        listener.onItemMoved();
     }
 
     @Override
     public void onDragStarted(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listener = (GameCallback) context;
+        } catch (ClassCastException castException) {
+            /** The activity does not implement the listener. */
+        }
+    }
+
+    public interface GameCallback{
+        void onUserWon();
+        void onItemMoved();
     }
 }

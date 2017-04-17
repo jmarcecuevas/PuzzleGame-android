@@ -20,6 +20,7 @@ import com.example.marce.luckypuzzle.common.LuckyFragment;
 import com.example.marce.luckypuzzle.di.component.DaggerSignUpOptionsComponent;
 import com.example.marce.luckypuzzle.di.module.SignInModule;
 import com.example.marce.luckypuzzle.presenter.SignInPresenterImp;
+import com.example.marce.luckypuzzle.ui.activities.ChoosePictureActivity;
 import com.example.marce.luckypuzzle.ui.activities.HomeActivity;
 import com.example.marce.luckypuzzle.ui.activities.SignUpActivity;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpOptions;
@@ -110,10 +111,11 @@ public class SignUpOptionsFragment extends LuckyFragment implements FacebookCall
 
     @Override
     public void setSuccessLogin(String userName,String imageURL) {
-        Intent intent= new Intent(getActivity(),HomeActivity.class);
+        Intent intent= new Intent(getActivity(),ChoosePictureActivity.class);
         intent.putExtra("userName",userName);
         intent.putExtra("imageURL",imageURL);
         startActivity(intent);
+        getActivity().finish();
     }
 
     @Override

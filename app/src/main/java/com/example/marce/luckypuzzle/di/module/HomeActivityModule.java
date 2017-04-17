@@ -3,6 +3,7 @@ package com.example.marce.luckypuzzle.di.module;
 import com.example.marce.luckypuzzle.di.scopes.ActivityScope;
 import com.example.marce.luckypuzzle.di.scopes.FragmentScope;
 import com.example.marce.luckypuzzle.interactor.HomeInteractor;
+import com.example.marce.luckypuzzle.interactor.ImageInteractor;
 import com.example.marce.luckypuzzle.interactor.SignInInteractor;
 import com.example.marce.luckypuzzle.interactor.UploadInteractor;
 import com.example.marce.luckypuzzle.model.Facebook;
@@ -33,7 +34,7 @@ public class HomeActivityModule {
         return homeView;
     }
 
-    @Provides @ActivityScope public HomePresenterImp providePresenter(HomeView homeView, HomeInteractor homeInteractor, SessionManager sessionManager){
-        return new HomePresenterImp(homeView,homeInteractor,sessionManager);
+    @Provides @ActivityScope public HomePresenterImp providePresenter(HomeView homeView, ImageInteractor imageInteractor, SessionManager sessionManager){
+        return new HomePresenterImp(homeView,imageInteractor,sessionManager);
     }
 }

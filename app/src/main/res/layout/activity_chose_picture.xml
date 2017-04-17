@@ -139,7 +139,7 @@
                         android:progressTint="#FFFFFF"
                         android:thumbTint="#FFFFFF"
                         android:backgroundTint="#FFFFFF"
-                        android:max="20"
+                        android:max="8"
                         />
 
                     <Button

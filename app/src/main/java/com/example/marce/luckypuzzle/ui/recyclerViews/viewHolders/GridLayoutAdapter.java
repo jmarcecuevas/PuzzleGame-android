@@ -49,7 +49,8 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.It
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
         holder.imageView.setImageBitmap(mData.get(position).getPicture());
         holder.number.setText(String.valueOf(mData.get(position).getPosition()));
-        if(position==mData.size()-1)
+        if(mData.get(position).getPosition()==mData.size()-1) {
+            holder.imageView.setAlpha(.3f);
             holder.imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -59,6 +60,7 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.It
                     return false;
                 }
             });
+        }
     }
 
     @Override
@@ -110,7 +112,7 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.It
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(Color.RED);
+            itemView.setBackgroundColor(Color.parseColor("#B3E5FC"));
         }
 
         @Override

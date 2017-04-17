@@ -10,22 +10,72 @@
     android:weightSum="10"
     tools:context="com.example.marce.luckypuzzle.ui.activities.HomeActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#009688"
+        android:background="@drawable/game_main_bar"
         android:orientation="horizontal"
         android:layout_weight="1">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_height="match_parent"
             android:paddingLeft="16dp"
-            android:layout_centerInParent="true"
             android:src="@drawable/empty_profile"
-            android:id="@+id/photo" />
+            android:id="@+id/photo"
+            app:civ_border_width="1dp"
+            app:civ_border_color="#FFFFFF"/>
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/userName"
+            android:layout_toRightOf="@id/photo"
+            android:layout_marginLeft="10dp"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FBC02D"
+            android:text="@string/level"
+            android:id="@+id/level"
+            android:layout_below="@+id/userName"
+            android:layout_alignLeft="@+id/userName"
+            android:layout_alignStart="@+id/userName"
+            android:layout_marginLeft="35dp"
+            android:layout_marginStart="35dp"
+            />
+
+        <ProgressBar
+            android:id="@+id/progressLevel"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="150dp"
+            android:layout_marginTop="3dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="false"
+            android:layout_below="@+id/level"
+            android:layout_alignStart="@+id/userName"
+            android:layout_alignLeft="@+id/userName"
+            android:maxHeight="10dip"
+            android:minHeight="10dip"
+            android:progress="50"
+            android:progressDrawable="@drawable/greenprogress" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FBC02D"
+            android:id="@+id/time"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="56"
+            android:textSize="25dp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
 
 
     <FrameLayout
@@ -36,21 +86,38 @@
 
     </FrameLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#009688"
+        android:background="@drawable/game_bottom_bar"
         android:orientation="horizontal"
         android:layout_weight="1">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/empty_profile"
-             />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true">
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/moves"
+            android:id="@+id/imageMoves" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FBC02D"
+            android:textSize="25sp"
+            android:text="0"
+            android:layout_centerVertical="true"
+            android:layout_alignRight="@+id/imageMoves"
+            android:layout_alignEnd="@+id/imageMoves"
+            android:id="@+id/moves" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 
 </LinearLayout>
