@@ -2,46 +2,32 @@ package com.example.marce.luckypuzzle.ui.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.common.LuckyActivity;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
 import com.example.marce.luckypuzzle.di.component.ActivityComponent;
+
+import com.example.marce.luckypuzzle.ui.fragments.SignUpFragment;
 import com.example.marce.luckypuzzle.ui.recyclerViews.adapters.PictureGalleryAdapter;
+import com.example.marce.luckypuzzle.ui.recyclerViews.adapters.SettingsAdapter;
 import com.example.marce.luckypuzzle.ui.recyclerViews.itemDecoration.SquareGridSpacingItemDecoration;
-import com.example.marce.luckypuzzle.ui.recyclerViews.viewHolders.GridLayoutAdapter;
-import com.example.marce.luckypuzzle.ui.recyclerViews.viewHolders.ItemTouchHelperAdapter;
-import com.example.marce.luckypuzzle.ui.recyclerViews.viewHolders.SimpleItemTouchHelperCallback;
 import com.example.marce.luckypuzzle.utils.ImagePicker;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -161,7 +147,13 @@ public class ChoosePictureActivity extends LuckyActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        if(id==R.id.settings){
+            startActivity(new Intent(this,SettingsActivity.class));
+        }else if(id==R.id.ranking){
+            Toast.makeText(this,R.string.featureNotImplemented,Toast.LENGTH_SHORT).show();
+        }else if(id==R.id.myBest){
+            Toast.makeText(this,R.string.featureNotImplemented,Toast.LENGTH_SHORT).show();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

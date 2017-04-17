@@ -43,6 +43,7 @@
             android:id="@+id/password"
             android:theme="@style/EditTextTheme"
             android:singleLine="true"
+            android:inputType="textPassword"
             android:textColor="#FFFFFF"/>
 
     </android.support.design.widget.TextInputLayout>

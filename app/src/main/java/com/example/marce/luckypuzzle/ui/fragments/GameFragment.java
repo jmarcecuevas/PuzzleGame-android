@@ -2,7 +2,6 @@ package com.example.marce.luckypuzzle.ui.fragments;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -20,7 +19,7 @@ import com.example.marce.luckypuzzle.model.Square;
 import com.example.marce.luckypuzzle.presenter.GamePresenterImp;
 import com.example.marce.luckypuzzle.ui.activities.HomeActivity;
 import com.example.marce.luckypuzzle.ui.recyclerViews.itemDecoration.SquareGridSpacingItemDecoration;
-import com.example.marce.luckypuzzle.ui.recyclerViews.viewHolders.GridLayoutAdapter;
+import com.example.marce.luckypuzzle.ui.recyclerViews.adapters.GridLayoutAdapter;
 import com.example.marce.luckypuzzle.ui.recyclerViews.viewHolders.SimpleItemTouchHelperCallback;
 import com.example.marce.luckypuzzle.ui.viewModel.GameView;
 

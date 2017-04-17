@@ -1,10 +1,8 @@
-package com.example.marce.luckypuzzle.ui.recyclerViews.viewHolders;
+package com.example.marce.luckypuzzle.ui.recyclerViews.adapters;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,8 +12,8 @@ import android.widget.TextView;
 
 import com.example.marce.luckypuzzle.R;
 import com.example.marce.luckypuzzle.model.Square;
-
-import org.w3c.dom.Text;
+import com.example.marce.luckypuzzle.ui.recyclerViews.viewHolders.ItemTouchHelperAdapter;
+import com.example.marce.luckypuzzle.ui.recyclerViews.viewHolders.ItemTouchHelperViewHolder;
 
 import java.util.ArrayList;
 import java.util.Collections;
