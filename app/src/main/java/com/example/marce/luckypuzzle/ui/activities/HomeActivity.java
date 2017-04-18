@@ -126,7 +126,7 @@ public class HomeActivity extends LuckyActivity implements HomeView,GameFragment
 
     @Override
     protected void init() {
-        level.setText(getText(R.string.level)+" "+String.valueOf(spanCount-2));
+        level.setText(getText(R.string.level)+" ");
     }
 
     public void startGame(){
@@ -143,7 +143,7 @@ public class HomeActivity extends LuckyActivity implements HomeView,GameFragment
                                 TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
                                 TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-                timeSpent= 60 - TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
+                timeSpent= 150 - TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
             }
             public void onFinish() {
                 gameOver();
@@ -162,7 +162,7 @@ public class HomeActivity extends LuckyActivity implements HomeView,GameFragment
         TextView timeSpent=(TextView)customDialog.findViewById(R.id.timeSpent);
         TextView moves=(TextView)customDialog.findViewById(R.id.moves);
         moves.setText(moves.getText().toString()+ " " + String.valueOf(totalMoves));
-        timeSpent.setText(timeSpent.getText().toString() + " " + 60+"s");
+        timeSpent.setText(timeSpent.getText().toString() + " " + 150+"s");
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -223,7 +223,7 @@ public class HomeActivity extends LuckyActivity implements HomeView,GameFragment
         TextView time= (TextView) customDialog.findViewById(R.id.timeSpent);
         TextView moves= (TextView)customDialog.findViewById(R.id.moves);
         time.setText(time.getText().toString()+" "+timeSpent+"s");
-        moves.setText(moves.getText().toString()+ " " + totalMoves);
+        moves.setText(moves.getText().toString()+ " " + String.valueOf(totalMoves+1));
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

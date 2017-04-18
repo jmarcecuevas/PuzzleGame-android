@@ -91,6 +91,7 @@ public class ChoosePictureActivity extends LuckyActivity
     @Override
     protected void init() {
         ButterKnife.bind(this);
+        gridSize.setText(String.valueOf(spanCount)+"x"+String.valueOf(spanCount));
 
         if(!session.checkStatusLogin()){
             startActivity(new Intent(this,SignUpActivity.class));
@@ -233,6 +234,8 @@ public class ChoosePictureActivity extends LuckyActivity
             intent.putExtra("profileUri",uriString);
             startActivity(intent);
             finish();
+        }else{
+            Toast.makeText(this,R.string.chooseAPhoto,Toast.LENGTH_SHORT).show();
         }
     }
 

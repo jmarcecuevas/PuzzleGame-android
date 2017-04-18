@@ -7,6 +7,8 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.marce.luckypuzzle.utils.MathUtils;
+
 /**
  * Created by marce on 13/04/17.
  */
@@ -43,9 +45,13 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         }
 
         int x= source.getAdapterPosition()-target.getAdapterPosition();
+        double sourceRow= ((float)source.getAdapterPosition()+1)/spanCount;
+        double targetRow=((float)target.getAdapterPosition()+1)/spanCount;
+        int realSourceRow= MathUtils.roundUP(sourceRow);
+        int realTargetRow=MathUtils.roundUP(targetRow);
 
         if(dragAllowed) {
-            if (x == 1 || x == -1) {
+            if ((x == 1 || x == -1) && (realSourceRow==realTargetRow)) {
                 mAdapter.onItemMoveHorizontally(source.getAdapterPosition(), target.getAdapterPosition());
                 dragAllowed=false;
             } else if (x == spanCount) {
@@ -83,5 +89,6 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         super.clearView(recyclerView, viewHolder);
         dragAllowed=true;
     }
+
 
 }
