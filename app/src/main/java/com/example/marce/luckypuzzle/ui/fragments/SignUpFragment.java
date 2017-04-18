@@ -30,6 +30,7 @@ import com.example.marce.luckypuzzle.ui.activities.SignUpActivity;
 import com.example.marce.luckypuzzle.ui.adapters.TextWatcherAdapter;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpView;
 import com.example.marce.luckypuzzle.utils.ImagePicker;
+import com.example.marce.luckypuzzle.utils.SessionManager;
 import com.example.marce.luckypuzzle.utils.SettingsManager;
 
 import javax.inject.Inject;
@@ -56,6 +57,7 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
     @BindView(R.id.password_layout)TextInputLayout passwordLayout;
     @BindView(R.id.uploadPhoto)FloatingActionButton uploadPhoto;
     @BindView(R.id.progressImage)ProgressBar progressImage;
+    @Inject SessionManager session;
     private static final int PICK_IMAGE_ID = 234;
     private Uri uri;
     private SettingsManager settingsManager;
@@ -185,6 +187,7 @@ public class SignUpFragment extends LuckyFragment implements SignUpView{
         settingsManager= new SettingsManager(getActivity(),userName);
         Intent intent=new Intent(getActivity(),ChoosePictureActivity.class);
         uri=ImagePicker.getImageUri(getActivity(),photo);
+        session.createLoginSession(userName,uri.toString());
         intent.putExtra("userName",userName);
         intent.putExtra("uri",uri.toString());
         startActivity(intent);

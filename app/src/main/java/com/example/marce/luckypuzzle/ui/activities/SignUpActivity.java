@@ -11,6 +11,7 @@ import com.example.marce.luckypuzzle.di.component.DaggerSignUpActivityComponent;
 import com.example.marce.luckypuzzle.di.component.SignUpActivityComponent;
 import com.example.marce.luckypuzzle.di.module.SignUpActivityModule;
 import com.example.marce.luckypuzzle.ui.fragments.SignUpOptionsFragment;
+import com.example.marce.luckypuzzle.utils.MusicManager;
 import com.example.marce.luckypuzzle.utils.SessionManager;
 
 import javax.inject.Inject;
@@ -58,5 +59,17 @@ public class SignUpActivity extends LuckyActivity {
     @Override
     public int getFragmentLayout() {
         return fragmentContainer.getId();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //MusicManager.start(this,0);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //MusicManager.pause();
     }
 }

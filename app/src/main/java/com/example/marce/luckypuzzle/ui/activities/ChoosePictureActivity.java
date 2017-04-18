@@ -1,6 +1,8 @@
 package com.example.marce.luckypuzzle.ui.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInstaller;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,16 +24,24 @@ import com.example.marce.luckypuzzle.common.LuckyActivity;
 import com.example.marce.luckypuzzle.di.app.LuckyGameComponent;
 import com.example.marce.luckypuzzle.di.component.ActivityComponent;
 
+import com.example.marce.luckypuzzle.di.component.ChooseActivityComponent;
+import com.example.marce.luckypuzzle.di.component.DaggerChooseActivityComponent;
+import com.example.marce.luckypuzzle.di.component.DaggerSignUpActivityComponent;
+import com.example.marce.luckypuzzle.di.module.SignUpActivityModule;
 import com.example.marce.luckypuzzle.ui.fragments.SignUpFragment;
 import com.example.marce.luckypuzzle.ui.recyclerViews.adapters.PictureGalleryAdapter;
 import com.example.marce.luckypuzzle.ui.recyclerViews.adapters.SettingsAdapter;
 import com.example.marce.luckypuzzle.ui.recyclerViews.itemDecoration.SquareGridSpacingItemDecoration;
 import com.example.marce.luckypuzzle.utils.ImagePicker;
+import com.example.marce.luckypuzzle.utils.SessionManager;
+import com.example.marce.luckypuzzle.utils.SettingsManager;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +53,7 @@ public class ChoosePictureActivity extends LuckyActivity
 
     private static final int PICK_IMAGE_ID = 1;
     private RecyclerView mRecyclerView;
+    private ChooseActivityComponent chooseComponent;
     private PictureGalleryAdapter adapter;
     private ArrayList<Integer> imageListId;
     private Bitmap photo;
@@ -53,6 +64,8 @@ public class ChoosePictureActivity extends LuckyActivity
     private int spanCount=2;
     private String profileUri;
     private String userName;
+    private SharedPreferences prefs;
+    @Inject SessionManager session;
     @BindView(R.id.imagePreview)ImageView imagePreview;
     @BindView(R.id.textInsideImage)TextView gridSize;
     @BindView(R.id.seekBar)SeekBar seekBar;
@@ -65,7 +78,9 @@ public class ChoosePictureActivity extends LuckyActivity
 
     @Override
     protected void setupActivityComponent(LuckyGameComponent appComponent) {
-
+        chooseComponent = DaggerChooseActivityComponent.builder()
+                .luckyGameComponent(appComponent).build();
+        chooseComponent.inject(this);
     }
 
     @Override
@@ -76,11 +91,19 @@ public class ChoosePictureActivity extends LuckyActivity
     @Override
     protected void init() {
         ButterKnife.bind(this);
+
+        if(!session.checkStatusLogin()){
+            startActivity(new Intent(this,SignUpActivity.class));
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            finish();
+        }
         if(getIntent().getStringExtra("uri")!=null)
             uriString= getIntent().getStringExtra("uri");
         else
             uriString=getIntent().getStringExtra("imageURL");
         userName= getIntent().getStringExtra("userName");
+
+
         imageListId = new ArrayList<>();
         Field[] drawables = R.drawable.class.getFields();
         for (Field f : drawables) {
@@ -140,19 +163,24 @@ public class ChoosePictureActivity extends LuckyActivity
         }
     }
 
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if(id==R.id.settings){
-            startActivity(new Intent(this,SettingsActivity.class));
+            Intent intent= new Intent(this,SettingsActivity.class);
+            intent.putExtra("userName",userName);
+            intent.putExtra("uri",uriString);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         }else if(id==R.id.ranking){
             Toast.makeText(this,R.string.featureNotImplemented,Toast.LENGTH_SHORT).show();
         }else if(id==R.id.myBest){
             Toast.makeText(this,R.string.featureNotImplemented,Toast.LENGTH_SHORT).show();
+        }else if(id==R.id.signout){
+            session.logoutUser();
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -196,7 +224,7 @@ public class ChoosePictureActivity extends LuckyActivity
         if((userImageSelected||ourImageSelected)){
             Intent intent= new Intent(this,HomeActivity.class);
             if(userImageSelected)
-                intent.putExtra("uri",uri);
+                intent.putExtra("uri",uriPictureTaken);
             else if(ourImageSelected)
                 intent.putExtra("imageId",imageId);
             intent.putExtra("spanCount",spanCount);

@@ -39,7 +39,7 @@ public class SessionManager {
     public static final String KEY_EMAIL = "email";
 
     //User Password
-    public static final String KEY_PASSWORD= "password";
+    public static final String KEY_URI= "uri";
 
     public SessionManager(Context context) {
         this._context = context;
@@ -68,10 +68,10 @@ public class SessionManager {
     }
 
 
-    public void createLoginSession(String userName,String password){
+    public void createLoginSession(String userName,String uri){
         editor.putBoolean(IS_LOGIN,true);
         editor.putString(KEY_USERNAME,userName);
-        editor.putString(KEY_PASSWORD,password);
+        editor.putString(KEY_URI,uri);
         editor.commit();
     }
 

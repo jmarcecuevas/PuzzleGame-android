@@ -24,6 +24,7 @@ import com.example.marce.luckypuzzle.ui.activities.ChoosePictureActivity;
 import com.example.marce.luckypuzzle.ui.activities.HomeActivity;
 import com.example.marce.luckypuzzle.ui.activities.SignUpActivity;
 import com.example.marce.luckypuzzle.ui.viewModel.SignUpOptions;
+import com.example.marce.luckypuzzle.utils.SessionManager;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -45,6 +46,7 @@ public class SignUpOptionsFragment extends LuckyFragment implements FacebookCall
 
     @Inject Context context;
     @Inject SignInPresenterImp mPresenter;
+    @Inject SessionManager session;
     @BindView(R.id.userName)EditText userName;
     @BindView(R.id.password)EditText password;
     @BindView(R.id.userName_layout) TextInputLayout userNameLayout;
@@ -114,6 +116,7 @@ public class SignUpOptionsFragment extends LuckyFragment implements FacebookCall
         Intent intent= new Intent(getActivity(),ChoosePictureActivity.class);
         intent.putExtra("userName",userName);
         intent.putExtra("imageURL",imageURL);
+        session.createLoginSession(userName,imageURL);
         startActivity(intent);
         getActivity().finish();
     }

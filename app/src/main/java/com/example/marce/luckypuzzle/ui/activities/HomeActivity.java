@@ -135,7 +135,7 @@ public class HomeActivity extends LuckyActivity implements HomeView,GameFragment
     }
 
     public void initTime(){
-        timer=new CountDownTimer(60000, 1000) { // adjust the milli seconds here
+        timer=new CountDownTimer(150000, 1000) { // adjust the milli seconds here
             public void onTick(long millisUntilFinished) {
                 time.setText(""+String.format(FORMAT,
                         TimeUnit.MILLISECONDS.toHours(millisUntilFinished),

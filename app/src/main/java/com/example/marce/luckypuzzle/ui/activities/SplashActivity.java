@@ -31,8 +31,9 @@ public class SplashActivity extends AppCompatActivity {
 
                 // Start the next activity
                 Intent mainIntent = new Intent().setClass(
-                        SplashActivity.this, SignUpActivity.class);
+                        SplashActivity.this, ChoosePictureActivity.class);
                 startActivity(mainIntent);
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 
                 // Close the activity so the user won't able to go back this
                 // activity pressing Back button

@@ -48,7 +48,7 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.It
         holder.imageView.setImageBitmap(mData.get(position).getPicture());
         holder.number.setText(String.valueOf(mData.get(position).getPosition()));
         if(mData.get(position).getPosition()==mData.size()-1) {
-            holder.imageView.setAlpha(.3f);
+            holder.imageView.setAlpha(.1f);
             holder.imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
