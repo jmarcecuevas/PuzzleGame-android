@@ -72,7 +72,7 @@ public class GameFragment extends LuckyFragment implements GameView,GridLayoutAd
         mSpanCount= getArguments().getInt("spanCount");
         Log.e("span",String.valueOf(mSpanCount));
         getArguments().remove("squares");
-        //mPresenter.generateRandomStatus(mBitmapBricks);
+        mPresenter.generateRandomStatus(mBitmapBricks);
         adapter= new GridLayoutAdapter(mBitmapBricks,this,this);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), mSpanCount) {
