@@ -14,6 +14,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.marce.luckypuzzle.R;
@@ -57,10 +58,11 @@ public class HomeActivity extends LuckyActivity implements HomeView,GameFragment
     @BindView(R.id.time)TextView time;
     @BindView(R.id.moves)TextView moves;
     @BindView(R.id.userName)TextView userNameTv;
+    @BindView(R.id.progressLevel)ProgressBar progressLevel;
     private long timeSpent;
     private ArrayList<Integer> imagesListId;
     private CountDownTimer timer;
-    private int totalMoves=0;
+    private int totalMoves=0,levelNumber;
     private ArrayList<Square> squares;
     private CustomDialog customDialog;
     private int imageId;
@@ -84,6 +86,11 @@ public class HomeActivity extends LuckyActivity implements HomeView,GameFragment
                     container.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
+        levelNumber=spanCount-2;
+        level.setText(getText(R.string.level)+" "+ levelNumber);
+        progressLevel.setMax(8);
+        progressLevel.setProgress(levelNumber);
+
     }
 
     @Override
@@ -126,7 +133,6 @@ public class HomeActivity extends LuckyActivity implements HomeView,GameFragment
 
     @Override
     protected void init() {
-        level.setText(getText(R.string.level)+" ");
     }
 
     public void startGame(){
@@ -227,6 +233,9 @@ public class HomeActivity extends LuckyActivity implements HomeView,GameFragment
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                levelNumber++;
+                progressLevel.setProgress(levelNumber);
+                level.setText(getText(R.string.level)+" "+ levelNumber);
                 nextGame();
                 customDialog.cancel();
             }

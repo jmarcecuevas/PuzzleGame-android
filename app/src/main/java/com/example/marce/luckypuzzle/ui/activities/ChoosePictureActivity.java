@@ -61,7 +61,7 @@ public class ChoosePictureActivity extends LuckyActivity
     private int imageId;
     private String uriString,uriPictureTaken;
     private Uri uri;
-    private int spanCount=2;
+    private int spanCount=3;
     private String profileUri;
     private String userName;
     private SharedPreferences prefs;
@@ -141,7 +141,7 @@ public class ChoosePictureActivity extends LuckyActivity
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                spanCount=progress+2;
+                spanCount=progress+3;
                 gridSize.setText(String.valueOf(spanCount)+"x"+String.valueOf(spanCount));
             }
 
